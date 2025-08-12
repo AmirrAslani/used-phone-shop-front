@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Shabnam';
+  src: url('./fonts/Shabnam-Medium-FD.woff2') format('woff2'),
+       url('./fonts/Shabnam-Medium-FD.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Estedad';
+  src: url('./fonts/Estedad-Medium.woff2') format('woff2'),
+       url('./fonts/Estedad-Medium.woff2') format('woff2');
+}
+
+body {
+  font-family: 'Estedad';
+  direction: rtl;
+  background: rgb(238, 241, 241);
+  color: #171717;
+}
