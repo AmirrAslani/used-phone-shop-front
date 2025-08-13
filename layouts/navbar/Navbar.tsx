@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { Home, Login } from "@/assets/common/icons";
+import { Bag, Home, Login } from "@/assets/common/icons";
 import { useRouter } from "next/router";
 import Button from "@/lib/components/base/Button";
 import axios from "axios";
@@ -10,6 +10,9 @@ const Navbar = () => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [profile, setProfile] = useState<{ name?: string; email?: string }>({});
+  const [mounted, setMounted] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
+
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
   const toggleProfileMenu = () => {
@@ -17,8 +20,16 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     const token = localStorage.getItem("accessToken");
+
     if (token) {
+      setToken(token)
       setIsLoggedIn(true);
       axios
         .get("http://localhost:3000/api/profile", {
@@ -34,7 +45,7 @@ const Navbar = () => {
           console.error("Error fetching profile:", err);
         });
     }
-  }, []);
+  }, [mounted]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -71,15 +82,25 @@ const Navbar = () => {
             <Home />
             <span>خانه</span>
           </Link>
+          
+          {/* Hydration */}
+          {token &&
+            <Link
+              href="/shop/cart"
+              className="flex items-center space-x-1 font-medium text-gray-800 hover:text-gray-600"
+            >
+              <Bag />
+              <span>سبد خرید</span>
+            </Link>
+          }
         </div>
-
         <div>
           <span className="text-xl font-bold">Used Mobile Store</span>
         </div>
 
         {/* Right */}
         <div className="relative" ref={profileMenuRef}>
-          {isLoggedIn ? (
+          {mounted && isLoggedIn ? (
             <>
               <button
                 onClick={toggleProfileMenu}

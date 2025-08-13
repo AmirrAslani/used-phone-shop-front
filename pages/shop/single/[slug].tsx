@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 interface Phone {
   id: string;
@@ -27,7 +28,7 @@ export default function PhoneDetails() {
   const [phone, setPhone] = useState<Phone | null>(null);
 
   useEffect(() => {
-    if (!router.isReady) return; // منتظر بمون تا slug لود بشه
+    if (!router.isReady) return;
 
     const token = localStorage.getItem("accessToken");
 
@@ -43,6 +44,38 @@ export default function PhoneDetails() {
         console.error("Error fetching phone details:", err)
       );
   }, [router.isReady, slug]);
+
+  const handleAddToCart = () => {
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+      toast.warn("برای سفارش باید وارد حساب کاربری شوید.");
+      router.push("/shop/login"); // یا هر صفحه لاگین
+      return;
+    }
+
+    if (!phone) return;
+
+    axios
+      .post(
+        "http://localhost:3000/api/cart/add",
+        {
+          phoneId: phone.id,
+          quantity: 1,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((res) => {
+        console.log("Added to cart:", res.data);
+        toast.success("محصول به سبد خرید اضافه شد");
+      })
+      .catch((err) => {
+        console.error("Error adding to cart:", err);
+        toast.error("خطا در افزودن به سبد خرید");
+      });
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
@@ -81,7 +114,10 @@ export default function PhoneDetails() {
               </ul>
             </div>
 
-            <button className="mt-6 w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 font-medium">
+            <button
+              onClick={handleAddToCart}
+              className="mt-6 w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 font-medium"
+            >
               سفارش
             </button>
           </div>

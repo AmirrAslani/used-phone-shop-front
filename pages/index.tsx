@@ -43,7 +43,7 @@ export default function PhonesPage() {
             name="Search"
             label="جستجو"
             value={search}
-            placeholder="نام کالا، مشخصات..."
+            placeholder="نام کالا، مدل..."
             icon={<Search />}
             onChange={(e) => setSearch(e.target.value)}
           />
