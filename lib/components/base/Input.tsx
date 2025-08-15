@@ -1,5 +1,5 @@
 import React from 'react';
-import { IInputProps } from "@/interface/component/base.interface";
+import { IInputProps } from "@/interface/components/base.interface";
 
 const Input = ({
   type = 'text',

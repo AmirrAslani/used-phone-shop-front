@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Bag, Home, Login } from "@/assets/common/icons";
 import { useRouter } from "next/router";
 import Button from "@/lib/components/base/Button";
-import axios from "axios";
+import { getProfile } from "@/services/auth/authService";
 
 const Navbar = () => {
   const router = useRouter();
@@ -31,19 +31,12 @@ const Navbar = () => {
     if (token) {
       setToken(token)
       setIsLoggedIn(true);
-      axios
-        .get("http://localhost:3000/api/profile", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          },
-        })
-        .then((res) => {
+      
+      getProfile()
+          .then((res) => {
           setProfile(res.data);
         })
-        .catch((err) => {
-          console.error("Error fetching profile:", err);
-        });
+        .catch(console.error);
     }
   }, [mounted]);
 
@@ -82,7 +75,7 @@ const Navbar = () => {
             <Home />
             <span>خانه</span>
           </Link>
-          
+
           {/* Hydration */}
           {token &&
             <Link

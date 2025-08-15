@@ -4,34 +4,25 @@ import Button from "@/lib/components/base/Button";
 import Input from "@/lib/components/base/Input";
 import { Search } from "@/assets/common/icons";
 import Link from "next/link";
+import { getAllPhones } from "@/services/single/singleService";
+import { IProducts } from "@/interface/components/shop.interface";
 
-interface Phone {
-  id: string;
-  brand: string;
-  model: string;
-  price: number;
-  image: string;
-}
 
 export default function PhonesPage() {
-  const [phones, setPhones] = useState<Phone[]>([]);
+  const [products, setProducts] = useState<IProducts[]>([]);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    axios
-      .get<Phone[]>("http://localhost:3000/api/phones", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    getAllPhones()
+      .then((res) => {
+        setProducts(res.data);
       })
-      .then((res) => setPhones(res.data))
-      .catch((err) => console.error("Error fetching phones:", err));
+      .catch(console.error);
   }, []);
 
   // فیلتر کردن بر اساس مدل
-  const filteredPhones = phones.filter(phone =>
-    phone.model.toLowerCase().includes(search.toLowerCase())
+  const filteredProducts = products.filter(product =>
+    product.model.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -51,16 +42,16 @@ export default function PhonesPage() {
 
         {/* نمایش کارت‌ها */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {filteredPhones.map((phone) => (
-             <Link href={`/shop/single/${phone.id}`} key={phone.id}>
+          {filteredProducts.map((products) => (
+             <Link href={`/shop/single/${products.id}`} key={products.id}>
             <div
-              key={phone.id}
+              key={products.id}
               className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="overflow-hidden">
                 <img
-                  src={`http://localhost:3000${phone.image}`}
-                  alt={phone.model}
+                  src={`http://localhost:3000${products.image}`}
+                  alt={products.model}
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
               </div>
@@ -68,13 +59,13 @@ export default function PhonesPage() {
               <div className="p-5 flex flex-col justify-between">
                 <div>
                   <h2 className="text-lg font-bold text-gray-900 tracking-tight">
-                    {phone.brand}
+                    {products.brand}
                   </h2>
                   <p className="text-sm text-gray-600 mt-1 line-clamp-2">
-                    {phone.model}
+                    {products.model}
                   </p>
                   <p className="text-xl font-bold text-green-600 mt-3">
-                    {phone.price.toLocaleString("fa-IR")} تومان
+                    {products.price.toLocaleString("fa-IR")} تومان
                   </p>
                 </div>
 
@@ -90,7 +81,7 @@ export default function PhonesPage() {
         </div>
 
         {/* وقتی نتیجه‌ای پیدا نشد */}
-        {filteredPhones.length === 0 && (
+        {filteredProducts.length === 0 && (
           <p className="text-center text-gray-500 mt-6">هیچ کالایی یافت نشد</p>
         )}
       </div>

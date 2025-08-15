@@ -1,0 +1,39 @@
+// src/services/http.ts
+import axios from "axios";
+
+// ساخت instance اختصاصی axios
+const http = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// اضافه کردن توکن به هر درخواست
+http.interceptors.request.use(
+  (config) => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// مدیریت پاسخ‌ها
+http.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      console.warn("توکن معتبر نیست یا منقضی شده");
+      // میتونی اینجا کار logout یا refresh token انجام بدی
+      localStorage.removeItem("accessToken")
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default http;

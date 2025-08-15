@@ -1,5 +1,5 @@
 import React from 'react';
-import { IButtonProps } from '@/interface/component/base.interface';
+import { IButtonProps } from '@/interface/components/base.interface';
 
 const Button = ({
   onClick,

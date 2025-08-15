@@ -2,79 +2,76 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-
-interface Phone {
-  id: string;
-  brand: string;
-  model: string;
-  price: number;
-  image: string;
-  description: string;
-  quantity: number;
-  specs: {
-    cpu: string;
-    ram: string;
-    rom: string;
-    battery: string;
-    cameraRear: string;
-    cameraFront: string;
-    displaySize: string;
-  };
-}
+import { getPhoneById } from "@/services/single/singleService";
+import { IPhone } from "@/interface/components/shop.interface";
+import { addToCart } from "@/services/single/singleService";
 
 export default function PhoneDetails() {
   const router = useRouter();
   const { slug } = router.query;
-  const [phone, setPhone] = useState<Phone | null>(null);
+  const [phone, setPhone] = useState<IPhone | null>(null);
 
   useEffect(() => {
     if (!router.isReady) return;
 
-    const token = localStorage.getItem("accessToken");
-
-    axios
-      .get<Phone>(`http://localhost:3000/api/phones/${slug}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    getPhoneById(slug as string)
       .then((res) => {
         setPhone(res.data);
-        console.log("singleData", res.data);
       })
-      .catch((err) =>
-        console.error("Error fetching phone details:", err)
-      );
+
+      .catch(console.error);
   }, [router.isReady, slug]);
 
-  const handleAddToCart = () => {
-    const token = localStorage.getItem("accessToken");
+  // const handleAddToCart = () => {
+  //   const token = localStorage.getItem("accessToken");
 
+  //   if (!token) {
+  //     toast.warn("برای سفارش باید وارد حساب کاربری شوید.");
+  //     router.push("/shop/login"); // یا هر صفحه لاگین
+  //     return;
+  //   }
+
+  //   if (!phone) return;
+
+  //   axios
+  //     .post(
+  //       "http://localhost:3000/api/cart/add",
+  //       {
+  //         phoneId: phone.id,
+  //         quantity: 1,
+  //       },
+  //       {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       console.log("Added to cart:", res.data);
+  //       toast.success("محصول به سبد خرید اضافه شد");
+  //     })
+  //     .catch((err) => {
+  //       console.error("Error adding to cart:", err);
+  //       toast.error("خطا در افزودن به سبد خرید");
+  //     });
+  // };
+
+  const handleAddToCart = async () => {
+    const token = localStorage.getItem("accessToken");
     if (!token) {
-      toast.warn("برای سفارش باید وارد حساب کاربری شوید.");
-      router.push("/shop/login"); // یا هر صفحه لاگین
+      toast.error("برای افزودن به سبد خرید ابتدا وارد شوید");
+      router.push("/shop/login");
       return;
     }
-
+  
     if (!phone) return;
-
-    axios
-      .post(
-        "http://localhost:3000/api/cart/add",
-        {
-          phoneId: phone.id,
-          quantity: 1,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-      .then((res) => {
-        console.log("Added to cart:", res.data);
-        toast.success("محصول به سبد خرید اضافه شد");
-      })
-      .catch((err) => {
-        console.error("Error adding to cart:", err);
-        toast.error("خطا در افزودن به سبد خرید");
-      });
+  
+    try {
+      const data = await addToCart(phone.id, 1);
+      console.log("Added to cart:", data);
+      toast.success("محصول به سبد خرید اضافه شد");
+    } catch (err) {
+      console.error("Error adding to cart:", err);
+      toast.error("خطا در افزودن به سبد خرید");
+    }
   };
 
   return (
