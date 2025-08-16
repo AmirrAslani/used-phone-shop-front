@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { getPhoneById } from "@/services/single/singleService";
 import { IPhone } from "@/interface/components/shop.interface";
@@ -21,38 +20,6 @@ export default function PhoneDetails() {
 
       .catch(console.error);
   }, [router.isReady, slug]);
-
-  // const handleAddToCart = () => {
-  //   const token = localStorage.getItem("accessToken");
-
-  //   if (!token) {
-  //     toast.warn("برای سفارش باید وارد حساب کاربری شوید.");
-  //     router.push("/shop/login"); // یا هر صفحه لاگین
-  //     return;
-  //   }
-
-  //   if (!phone) return;
-
-  //   axios
-  //     .post(
-  //       "http://localhost:3000/api/cart/add",
-  //       {
-  //         phoneId: phone.id,
-  //         quantity: 1,
-  //       },
-  //       {
-  //         headers: { Authorization: `Bearer ${token}` },
-  //       }
-  //     )
-  //     .then((res) => {
-  //       console.log("Added to cart:", res.data);
-  //       toast.success("محصول به سبد خرید اضافه شد");
-  //     })
-  //     .catch((err) => {
-  //       console.error("Error adding to cart:", err);
-  //       toast.error("خطا در افزودن به سبد خرید");
-  //     });
-  // };
 
   const handleAddToCart = async () => {
     const token = localStorage.getItem("accessToken");
