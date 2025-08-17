@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { Bag, Home, Login } from "@/assets/common/icons";
+import { Bag, Home, Login, Favorites } from "@/assets/common/icons";
 import { useRouter } from "next/router";
 import Button from "@/lib/components/base/Button";
 import { getProfile } from "@/services/auth/authService";
@@ -31,9 +31,9 @@ const Navbar = () => {
     if (token) {
       setToken(token)
       setIsLoggedIn(true);
-      
+
       getProfile()
-          .then((res) => {
+        .then((res) => {
           setProfile(res.data);
         })
         .catch(console.error);
@@ -67,7 +67,7 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 bg-gray-50 shadow-md p-4">
       <div className="container mx-auto flex items-center justify-between">
         {/* Left */}
-        <div className="flex items-center space-x-6">
+        <div className="flex items-center space-x-4">
           <Link
             href="/"
             className="flex items-center space-x-1 font-medium text-gray-800 hover:text-gray-600"
@@ -78,13 +78,22 @@ const Navbar = () => {
 
           {/* Hydration */}
           {token &&
-            <Link
-              href="/shop/cart"
-              className="flex items-center space-x-1 font-medium text-gray-800 hover:text-gray-600"
-            >
-              <Bag />
-              <span>سبد خرید</span>
-            </Link>
+            <>
+              <Link
+                href="/shop/cart"
+                className="flex items-center space-x-1 font-medium text-gray-800 hover:text-gray-600"
+              >
+                <Bag />
+                <span>سبد خرید</span>
+              </Link>
+              <Link
+                href="/shop/favorites"
+                className="flex items-center space-x-1 font-medium text-gray-800 hover:text-gray-600"
+              >
+                <Favorites />
+                <span>علاقه مندی ها</span>
+              </Link>
+            </>
           }
         </div>
         <div>

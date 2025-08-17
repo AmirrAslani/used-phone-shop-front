@@ -38,7 +38,7 @@ export default function RegisterForm() {
 
             if (data.access_token) {
                 localStorage.setItem("accessToken", data.access_token);
-                toast.success("خوش اومدین یاشاسین 🎉");
+                toast.success("خوش اومدین یاشاسین");
                 router.push("/");
             }
         } catch (err: any) {

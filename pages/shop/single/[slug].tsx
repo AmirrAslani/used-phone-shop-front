@@ -24,13 +24,13 @@ export default function PhoneDetails() {
   const handleAddToCart = async () => {
     const token = localStorage.getItem("accessToken");
     if (!token) {
-      toast.error("برای افزودن به سبد خرید ابتدا وارد شوید");
+      toast.warn("برای افزودن به سبد خرید وارد شوید");
       router.push("/shop/login");
       return;
     }
-  
+
     if (!phone) return;
-  
+
     try {
       const data = await addToCart(phone.id, 1);
       console.log("Added to cart:", data);
@@ -42,51 +42,61 @@ export default function PhoneDetails() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4">
-      <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-md p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="overflow-hidden rounded-lg">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-12 px-4">
+      <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-2 ">
+
+          {/* تصویر */}
+          <div className="bg-gray-100 p-6 flex items-center justify-center ">
             <img
               src={`http://localhost:3000${phone?.image}`}
               alt={phone?.model}
-              className="w-full h-full object-cover"
+              className="rounded-2xl shadow-md object-fit w-full h-[400px] max-w-md"
             />
           </div>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              {phone?.brand}
-            </h1>
-            <p className="mt-2 text-gray-700">{phone?.model}</p>
-            <p className="mt-4 text-2xl font-bold text-green-600">
-              {phone?.price.toLocaleString("fa-IR")} تومان
-            </p>
-            <p className="mt-4 text-gray-600">{phone?.description}</p>
-            <p className="mt-2 text-sm text-gray-500">
-              موجودی: {phone?.quantity} عدد
-            </p>
 
-            <div className="mt-6">
-              <h2 className="text-lg font-bold mb-3">مشخصات فنی</h2>
-              <ul className="space-y-1 text-gray-700">
-                <li>پردازنده: {phone?.specs.cpu}</li>
-                <li>رم: {phone?.specs.ram}</li>
-                <li>حافظه داخلی: {phone?.specs.rom}</li>
-                <li>باتری: {phone?.specs.battery}</li>
-                <li>دوربین پشت: {phone?.specs.cameraRear}</li>
-                <li>دوربین جلو: {phone?.specs.cameraFront}</li>
-                <li>اندازه نمایشگر: {phone?.specs.displaySize}</li>
+          {/* اطلاعات محصول */}
+          <div className="p-8">
+            <h1 className="text-3xl font-extrabold text-gray-900">{phone?.brand.toLocaleUpperCase()}</h1>
+            <p className="mt-2 text-lg text-gray-700 font-medium">{phone?.model}</p>
+            <div className="flex items-center mt-4 font-semibold space-x-2">
+              <span className="text-lg text-gray-800">قیمت:</span>
+              <p className="text-2xl text-blue-500">
+                {phone?.price.toLocaleString("fa-IR")} تومان
+              </p>
+            </div>
+            <p className="mt-4 text-gray-600 leading-relaxed">{phone?.description}</p>
+
+            <div className="mt-4 text-sm text-gray-500">
+              موجودی:{" "}
+              <span className="text-gray-800 font-semibold">{phone?.quantity} عدد</span>
+            </div>
+
+            {/* مشخصات فنی */}
+            <div className="mt-8 bg-gray-50 border border-gray-200 rounded-xl p-6">
+              <h2 className="text-lg font-bold text-gray-900 mb-4">مشخصات فنی</h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 text-sm">
+                <li><span className="font-medium">پردازنده:</span> {phone?.specs.cpu}</li>
+                <li><span className="font-medium">رم:</span> {phone?.specs.ram.toLocaleUpperCase()}</li>
+                <li><span className="font-medium">حافظه داخلی:</span> {phone?.specs.rom.toLocaleUpperCase()}</li>
+                <li><span className="font-medium">باتری:</span> {phone?.specs.battery}</li>
+                <li><span className="font-medium">دوربین پشت:</span> {phone?.specs.cameraRear}</li>
+                <li><span className="font-medium">دوربین جلو:</span> {phone?.specs.cameraFront}</li>
+                <li><span className="font-medium">اندازه نمایشگر:</span> {phone?.specs.displaySize}</li>
               </ul>
             </div>
 
+            {/* دکمه سفارش */}
             <button
               onClick={handleAddToCart}
-              className="mt-6 w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 font-medium"
+              className="mt-8 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-700 hover:to-blue-900 text-white py-3 rounded-xl shadow-lg transition-all duration-300 text-lg font-semibold cursor-pointer"
             >
-              سفارش
+              سفارش محصول
             </button>
           </div>
         </div>
       </div>
     </div>
+
   );
 }
