@@ -27,3 +27,19 @@
     price: number;
     image: string;
   }
+
+  export interface IOrder {
+    id: string;
+    createdAt: string;
+    total: number;
+    status: 'pending' | 'paid' | 'shipped' | 'cancelled';
+    items: {
+      phoneId: string;
+      quantity: number;
+      phone: {
+        brand: string;
+        model: string;
+        image: string;
+      };
+    }[];
+  }

@@ -4,13 +4,22 @@ import { toast } from "react-toastify";
 import { getPhoneById } from "@/services/single/singleService";
 import { IPhone } from "@/interface/components/shop.interface";
 import { addToCart } from "@/services/single/singleService";
+import { getCart } from "@/services/cart/cartService";
 
 export default function PhoneDetails() {
   const router = useRouter();
   const { slug } = router.query;
   const [phone, setPhone] = useState<IPhone | null>(null);
+  const [cart, setCart] = useState<null | any>(null);
+  const isInCart = cart?.items?.some((item: any) => item.phoneId === slug);
 
   useEffect(() => {
+    getCart()
+      .then(res => {
+        setCart(res.data)
+      })
+      .catch(err => console.error(err));
+
     if (!router.isReady) return;
 
     getPhoneById(slug as string)
@@ -33,6 +42,8 @@ export default function PhoneDetails() {
 
     try {
       const data = await addToCart(phone.id, 1);
+      const updatedCart = await getCart();
+      setCart(updatedCart.data);
       console.log("Added to cart:", data);
       toast.success("محصول به سبد خرید اضافه شد");
     } catch (err) {
@@ -87,12 +98,23 @@ export default function PhoneDetails() {
             </div>
 
             {/* دکمه سفارش */}
-            <button
-              onClick={handleAddToCart}
-              className="mt-8 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-700 hover:to-blue-900 text-white py-3 rounded-xl shadow-lg transition-all duration-300 text-lg font-semibold cursor-pointer"
-            >
-              سفارش محصول
-            </button>
+            {isInCart ? (
+              <button
+                onClick={() => router.push('/shop/cart')}
+                className="mt-8 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-700 hover:to-blue-900 text-white py-3 rounded-xl shadow-lg transition-all duration-300 text-lg font-semibold cursor-pointer"
+              >
+                مشاهده سبد خرید
+              </button>
+
+            ) : (
+
+              <button
+                onClick={handleAddToCart}
+                className="mt-8 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-700 hover:to-blue-900 text-white py-3 rounded-xl shadow-lg transition-all duration-300 text-lg font-semibold cursor-pointer"
+              >
+                سفارش محصول
+              </button>
+            )}
           </div>
         </div>
       </div>

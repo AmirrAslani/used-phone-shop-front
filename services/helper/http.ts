@@ -1,4 +1,3 @@
-// src/services/http.ts
 import axios from "axios";
 
 // ساخت instance اختصاصی axios
@@ -28,8 +27,7 @@ http.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      console.warn("توکن معتبر نیست یا منقضی شده");
-      // میتونی اینجا کار logout یا refresh token انجام بدی
+      // console.warn("توکن معتبر نیست یا منقضی شده");
       localStorage.removeItem("accessToken")
     }
     return Promise.reject(error);

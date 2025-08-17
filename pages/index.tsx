@@ -9,13 +9,14 @@ import { addToFavorites, checkFavorite, removeFavorite, getFavorites } from '@/s
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { FaHeart } from 'react-icons/fa';
+import { IPhone } from '@/interface/components/shop.interface';
 
 export default function PhonesPage() {
   const router = useRouter();
 
   const [products, setProducts] = useState<IProducts[]>([]);
   const [search, setSearch] = useState('');
-  const [favorites, setFavorites] = useState<any[]>([]);
+  const [favorites, setFavorites] = useState<IPhone[]>([]);
 
   useEffect(() => {
     getAllPhones()
@@ -25,7 +26,6 @@ export default function PhonesPage() {
       .catch(console.error);
   }, []);
 
-  // فیلتر کردن بر اساس مدل
   const filteredProducts = products.filter(product =>
     product.model.toLowerCase().includes(search.toLowerCase())
   );
@@ -39,22 +39,16 @@ export default function PhonesPage() {
     }
 
     try {
-      // خروجی دقیق بررسی شود
       const res = await checkFavorite(phoneId);
-      const isFavorite = res.isFavorite ?? res; // در صورتی که فقط true/false باشه، خودش استفاده میشه
+      const isFavorite = res.isFavorite ?? res;
 
-      console.log('isFavorite:', isFavorite);
-
-      console.log('favorites', favorites);
       if (isFavorite) {
         await removeFavorite(phoneId);
         setFavorites((prev) => prev.filter((item) => item.id !== phoneId));
-
-        toast.success("محصول از علاقه مندی حذف شد");
       } else {
         const data = await addToFavorites(phoneId);
         console.log("added item:", data);
-        setFavorites((prev) => [...prev, { id: phoneId }]);
+        setFavorites((prev: any) => [...prev, { id: phoneId }]);
         toast.success("محصول به علاقه مندی ها اضافه شد");
       }
     } catch (err) {
@@ -68,19 +62,17 @@ export default function PhonesPage() {
 
   const fetchFavorites = async () => {
     try {
-      const res = await getFavorites(); // این باید لیستی از آیتم‌ها بده
-      setFavorites(res.data); // مثلاً [{ id: "123" }, { id: "456" }]
-      console.log('fff', res.data)
+      const res = await getFavorites();
+      setFavorites(res.data);
     } catch (err) {
-      console.error("خطا در گرفتن علاقه‌مندی‌ها:", err);
+      console.error("خطا در گرفتن علاقه‌ مندی‌ها:", err);
     }
   };
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-10 px-4">
       <div className="max-w-7xl mx-auto">
-        {/* بخش جستجو */}
+
         <div className="mb-5">
           <Input
             name="Search"
@@ -92,13 +84,12 @@ export default function PhonesPage() {
           />
         </div>
 
-        {/* نمایش کارت‌ها */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
               className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-              onClick={() => router.push(`/shop/single/${product.id}`)} // کلیک روی کارت هدایت انجام بده
+              onClick={() => router.push(`/shop/single/${product.id}`)}
             >
               <div className="overflow-hidden">
                 <img
@@ -115,20 +106,17 @@ export default function PhonesPage() {
                       {product.brand}
                     </h2>
 
-                    {/* آیکون علاقه‌مندی با جلوگیری از انتشار کلیک */}
                     <div
                       className="text-red-500 text-xl cursor-pointer"
                       onClick={(e) => {
-                        e.stopPropagation(); // جلوگیری از کلیک روی کارت
+                        e.stopPropagation();
                         handleToggleFavorite(product.id)
                       }}
                       title="افزودن به علاقه‌مندی"
                     >
-                      {/* <FaHeart color={favorites ? "gray" : "red"} /> */}
                       <FaHeart
                         color={favorites.some((fav) => fav.id === product.id) ? "red" : "lightgray"}
                       />
-
                     </div>
                   </div>
 
@@ -144,7 +132,6 @@ export default function PhonesPage() {
                   </div>
                 </div>
 
-                {/* دکمه جدا شده با لینک */}
                 <Link href={`/shop/single/${product.id}`}>
                   <Button
                     text="مشاهده و خرید"
@@ -156,7 +143,6 @@ export default function PhonesPage() {
           ))}
         </div>
 
-        {/* وقتی نتیجه‌ای پیدا نشد */}
         {filteredProducts.length === 0 && (
           <p className="text-center text-gray-500 mt-6">هیچ کالایی یافت نشد</p>
         )}

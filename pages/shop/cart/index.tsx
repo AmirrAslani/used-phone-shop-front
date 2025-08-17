@@ -5,6 +5,7 @@ import { clearCart, getCart } from "@/services/cart/cartService";
 import { removeOneItem } from "@/services/cart/cartService";
 import { toast } from "react-toastify";
 import { updateCart } from "@/services/cart/cartService";
+import { addToOrders } from "@/services/orders/ordersService";
 
 export default function CartPage() {
     const [cart, setCart] = useState<any>(null);
@@ -99,6 +100,16 @@ export default function CartPage() {
         }
     };
 
+    const handleAddToOrders = async () => {
+        try {
+            await addToOrders();
+            router.push('/shop/orders')
+        } catch (error) {
+            console.error("خطا:", error);
+            toast.error("مشکلی پیش آمده");
+        }
+    };
+
     if (!cart) return <div className="p-4">در حال بارگذاری...</div>;
 
     return (
@@ -162,13 +173,13 @@ export default function CartPage() {
                             <p className="text-xl font-bold">
                                 جمع کل: {cart?.total.toLocaleString()} تومان
                             </p>
-                            <button className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 cursor-pointer">
+                            <button onClick={handleAddToOrders} className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 cursor-pointer">
                                 ادامه خرید
                             </button>
                         </div>
 
                         <div className="mt-2">
-                            <button onClick={handleClearCart} className="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 cursor-pointer">
+                            <button onClick={handleClearCart} className="bg-red-700 text-white px-6 py-2 rounded-lg hover:bg-red-800 cursor-pointer">
                                 خالی کردن سبد
                             </button>
                         </div>
