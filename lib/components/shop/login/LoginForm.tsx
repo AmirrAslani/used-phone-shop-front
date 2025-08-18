@@ -1,23 +1,28 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+
+interface LoginFormValues {
+    email: string;
+    password: string;
+  }
 
 export default function LoginForm() {
     const router = useRouter();
 
-    const initialValues = { email: "", password: "" };
+    const initialValues: LoginFormValues  = { email: "", password: "" };
 
     const validationSchema = Yup.object({
         email: Yup.string().email("ایمیل معتبر نیست").required("ایمیل الزامی است"),
         password: Yup.string().min(6, "حداقل 6 کاراکتر").required("رمز عبور الزامی است"),
     });
 
-    const handleSubmit = async (values: typeof initialValues, { setSubmitting }: any) => {
+    const handleSubmit = async (values: typeof initialValues, { setSubmitting }: FormikHelpers<LoginFormValues>) => {
         try {
             const { data } = await axios.post(
-                "http://localhost:3000/api/auth/login",
+                "http://localhost:3001/api/auth/login",
                 values
             );
 
@@ -26,8 +31,9 @@ export default function LoginForm() {
                 toast.success("خوش اومدین یاشاسین");
                 router.push("/");
             }
-        } catch (err: any) {
-            toast.error(err.response?.data?.message || "خطا در ورود");
+        } catch (err: unknown) {
+            const error = err as AxiosError<{ message: string }>;
+            toast.error(error.response?.data?.message || "خطا در ورود");
         } finally {
             setSubmitting(false);
         }

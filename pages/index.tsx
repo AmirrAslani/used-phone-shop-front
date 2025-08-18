@@ -48,11 +48,13 @@ export default function PhonesPage() {
       } else {
         const data = await addToFavorites(phoneId);
         console.log("added item:", data);
-        setFavorites((prev: any) => [...prev, { id: phoneId }]);
+        setFavorites((prev: IPhone[]) => [...prev, { id: phoneId } as IPhone]);
+
         toast.success("محصول به علاقه مندی ها اضافه شد");
       }
     } catch (err) {
       toast.error("خطا در بروزرسانی علاقه مندی ها");
+      console.error(err);
     }
   };
 
@@ -93,7 +95,7 @@ export default function PhonesPage() {
             >
               <div className="overflow-hidden">
                 <img
-                  src={`http://localhost:3000${product.image}`}
+                  src={`http://localhost:3001${product.image}`}
                   alt={product.model}
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />

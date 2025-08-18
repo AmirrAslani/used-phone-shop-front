@@ -71,7 +71,7 @@ export default function Orders() {
                                     className="flex items-center gap-4 p-3 border border-blue-300 rounded-lg bg-gray-50"
                                 >
                                     <img
-                                        src={`http://localhost:3000${item.phone.image}`}
+                                        src={`http://localhost:3001${item.phone.image}`}
                                         alt={item.phone.model}
                                         className="w-16 h-16 object-contain rounded"
                                     />

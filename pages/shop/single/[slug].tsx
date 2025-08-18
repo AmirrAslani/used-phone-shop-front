@@ -6,12 +6,28 @@ import { IPhone } from "@/interface/components/shop.interface";
 import { addToCart } from "@/services/single/singleService";
 import { getCart } from "@/services/cart/cartService";
 
+export interface ICartItem {
+  id: string;
+  cartId: string;
+  phoneId: string;
+  quantity: number;
+  phone: IPhone;
+}
+
+export interface ICart {
+  id: string;
+  userId: string;
+  createdAt: string;
+  items: ICartItem[];
+  total: number;
+}
+
 export default function PhoneDetails() {
   const router = useRouter();
   const { slug } = router.query;
   const [phone, setPhone] = useState<IPhone | null>(null);
-  const [cart, setCart] = useState<null | any>(null);
-  const isInCart = cart?.items?.some((item: any) => item.phoneId === slug);
+  const [cart, setCart] = useState<null | ICart >(null);
+  const isInCart = cart?.items?.some((item) => item.phoneId === slug);
 
   useEffect(() => {
     getCart()
@@ -60,7 +76,7 @@ export default function PhoneDetails() {
           {/* تصویر */}
           <div className="bg-gray-100 p-6 flex items-center justify-center ">
             <img
-              src={`http://localhost:3000${phone?.image}`}
+              src={`http://localhost:3001${phone?.image}`}
               alt={phone?.model}
               className="rounded-2xl shadow-md object-fit w-full h-[400px] max-w-md"
             />

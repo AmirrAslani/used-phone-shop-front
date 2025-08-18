@@ -43,3 +43,14 @@
       };
     }[];
   }
+
+  export interface ICartItem {
+    id: string;
+    quantity: number;
+    phone: IPhone;
+  }
+  
+  export interface ICart {
+    items: ICartItem[];
+    total: number;
+  }

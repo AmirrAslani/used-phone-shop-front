@@ -6,9 +6,10 @@ import { removeOneItem } from "@/services/cart/cartService";
 import { toast } from "react-toastify";
 import { updateCart } from "@/services/cart/cartService";
 import { addToOrders } from "@/services/orders/ordersService";
+import { ICart, ICartItem } from "@/interface/components/shop.interface";
 
 export default function CartPage() {
-    const [cart, setCart] = useState<any>(null);
+    const [cart, setCart] = useState<ICart | null>(null);
     const router = useRouter()
 
     useEffect(() => {
@@ -22,34 +23,35 @@ export default function CartPage() {
                 console.log(res.data)
             })
             .catch(err => console.error(err));
-    }, []);
+    }, [router]);
 
     const updateQuantity = async (itemId: string, quantity: number) => {
         await updateCart(itemId, quantity);
-
-        setCart((prev: any) => {
-            // اگر quantity کمتر از 1 بود، آیتم را حذف کن
-            const updatedItems = quantity < 1
-                ? prev.items.filter((item: any) => item.id !== itemId)
-                : prev.items.map((item: any) =>
-                    item.id === itemId ? { ...item, quantity } : item
+      
+        setCart((prev) => {
+          if (!prev) return prev;
+      
+          const updatedItems =
+            quantity < 1
+              ? prev.items.filter((item) => item.id !== itemId)
+              : prev.items.map((item) =>
+                  item.id === itemId ? { ...item, quantity } : item
                 );
-
-            // محاسبه‌ی total جدید
-            const newTotal = updatedItems.reduce(
-                (acc: number, item: any) => acc + item.phone.price * item.quantity,
-                0
-            );
-
-            return {
-                ...prev,
-                items: updatedItems,
-                total: newTotal,
-            };
+      
+          const newTotal = updatedItems.reduce(
+            (acc, item) => acc + item.phone.price * item.quantity,
+            0
+          );
+      
+          return {
+            ...prev,
+            items: updatedItems,
+            total: newTotal,
+          };
         });
-    };
-
-    const handleIncrease = (item: any) => {
+      };
+      
+    const handleIncrease = (item: ICartItem) => {
         const newQuantity = item.quantity + 1;
 
         if (newQuantity > item.phone.quantity) return;
@@ -64,31 +66,33 @@ export default function CartPage() {
 
     const removeItem = async (itemId: string) => {
         try {
-            await removeOneItem(itemId);
-            setCart((prev: any) => {
-                const updatedItems = prev.items.filter((item: any) => item.id !== itemId);
-
-                const newTotal = updatedItems.reduce(
-                    (acc: number, item: any) => acc + item.phone.price * item.quantity,
-                    0
-                );
-
-                return {
-                    ...prev,
-                    items: updatedItems,
-                    total: newTotal,
-                };
-            });
-
+          await removeOneItem(itemId);
+      
+          setCart((prev) => {
+            if (!prev) return prev;
+      
+            const updatedItems = prev.items.filter((item) => item.id !== itemId);
+      
+            const newTotal = updatedItems.reduce(
+              (acc, item) => acc + item.phone.price * item.quantity,
+              0
+            );
+      
+            return {
+              ...prev,
+              items: updatedItems,
+              total: newTotal,
+            };
+          });
         } catch (error) {
-            console.error("خطا در حذف:", error);
+          console.error("خطا در حذف:", error);
         }
-    };
+      };      
 
     const handleClearCart = async () => {
         try {
             await clearCart();
-            setCart((prev: any) => ({
+            setCart((prev) => ({
                 ...prev,
                 items: [],
                 total: 0,
@@ -122,10 +126,10 @@ export default function CartPage() {
                 )}
 
                 <div className="space-y-4">
-                    {cart.items.map((item: any) => (
+                    {cart.items.map((item) => (
                         <div key={item.id} className="flex items-center bg-white shadow p-4 rounded-lg animate__animated animate__fadeInRight">
                             <img
-                                src={`http://localhost:3000${item.phone.image}`}
+                                src={`http://localhost:3001${item.phone.image}`}
                                 alt={item.phone.model}
                                 className="w-24 h-24 object-cover rounded"
                             />
