@@ -108,12 +108,20 @@ const Navbar = () => {
                 onClick={toggleProfileMenu}
                 className="flex items-center space-x-2 text-gray-800 hover:text-gray-600 focus:outline-none cursor-pointer"
               >
-                <img
-                  src={`http://localhost:3001${profile.avatar}`}
-                  alt="Profile"
-                  className="w-8 h-8 rounded-full border-2 border-gray-300"
-                />
-                <span>{profile.name || "Profile"}</span>
+                {profile.avatar ? (
+                  <img
+                    src={`http://localhost:3001${profile.avatar}`}
+                    alt="Profile"
+                    className="w-8 h-8 rounded-full border-2 border-gray-300"
+                  />
+                ) : (
+                  <img
+                    src='images/user-35.png'
+                    alt="Profile"
+                    className="w-8 h-8 rounded-full border-2 border-gray-300"
+                  />
+                )}
+                <span>{profile.name || profile.email}</span>
               </button>
 
               {isProfileMenuOpen && (

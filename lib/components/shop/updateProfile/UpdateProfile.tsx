@@ -25,11 +25,8 @@ export default function UpdateProfileForm() {
     name: Yup.string()
       .min(3, "نام باید حداقل 3 کاراکتر باشد")
       .max(20, "نام باید حداکثر 20 کاراکتر باشد")
-      .required("نام الزامی است"),
+      .notRequired(),
     avatar: Yup.mixed()
-      .test('fileRequired', 'عکس پروفایل را انتخاب کنید', (value) => {
-        return value !== null;
-      })
       .test('fileType', 'فقط تصاویر مجاز هستند', (value) => {
         if (!value) return true;
         return ['image/jpeg', 'image/png', 'image/gif'].includes((value as File).type);
@@ -37,17 +34,24 @@ export default function UpdateProfileForm() {
       .test('fileSize', 'حجم تصویر باید کمتر از 2MB باشد', (value) => {
         if (!value) return true;
         return (value as File).size <= 2 * 1024 * 1024;
-      }),
+      })
+      .notRequired(),
   });
+  
 
   const handleSubmit = async (values: ProfileFormValues) => {
+    // اگر هیچکدام پر نشده بودند
+    if (!values.name && !values.avatar) {
+      toast.error('لطفاً حداقل نام یا عکس پروفایل را وارد کنید');
+      return;
+    }
+  
     setIsSubmitting(true);
     try {
       const formData = new FormData();
-      formData.append('name', values.name);
-      if (values.avatar) {
-        formData.append('avatar', values.avatar);
-      }
+      if (values.name) formData.append('name', values.name);
+      if (values.avatar) formData.append('avatar', values.avatar);
+  
       await updateProfile(formData);
       toast.success('پروفایل با موفقیت به‌روزرسانی شد!');
     } catch (error) {
