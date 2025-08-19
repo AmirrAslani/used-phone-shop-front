@@ -2,7 +2,7 @@ import axios from "axios";
 
 // ساخت instance اختصاصی axios
 const http = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "https://4051558bfe55.ngrok-free.app/api",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "https://used-phone-shop-production.up.railway.app/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -27,7 +27,7 @@ http.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // console.warn("توکن معتبر نیست یا منقضی شده");
+      console.warn("توکن معتبر نیست یا منقضی شده");
       localStorage.removeItem("accessToken")
     }
     return Promise.reject(error);
