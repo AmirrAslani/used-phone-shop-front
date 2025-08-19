@@ -76,7 +76,7 @@ export default function PhoneDetails() {
           {/* تصویر */}
           <div className="bg-gray-100 p-6 flex items-center justify-center ">
             <img
-              src={`http://localhost:3001${phone?.image}`}
+              src={`https://used-phone-shop-production.up.railway.app${phone?.image}`}
               alt={phone?.model}
               className="rounded-2xl shadow-md object-fit w-full h-[400px] max-w-md"
             />

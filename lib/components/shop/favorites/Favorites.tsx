@@ -44,7 +44,7 @@ export default function Favorites() {
                                 <div key={item.id} className="shadow-lg border border-gray-200 rounded-xl shadow px-4 pb-2 bg-white">
                                     <div className="w-full my-4 flex justify-between">
                                         <img
-                                            src={`http://localhost:3001${item.image}`}
+                                            src={`https://used-phone-shop-production.up.railway.app${item.image}`}
                                             alt={item.model}
                                             className="w-24 h-24 object-cover rounded"
                                         />

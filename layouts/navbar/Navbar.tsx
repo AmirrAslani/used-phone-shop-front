@@ -110,7 +110,7 @@ const Navbar = () => {
               >
                 {profile.avatar ? (
                   <img
-                    src={`http://localhost:3001${profile.avatar}`}
+                    src={`https://used-phone-shop-production.up.railway.app${profile.avatar}`}
                     alt="Profile"
                     className="w-8 h-8 rounded-full border-2 border-gray-300"
                   />

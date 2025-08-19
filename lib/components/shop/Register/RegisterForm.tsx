@@ -33,14 +33,14 @@ export default function RegisterForm() {
             
             // مرحله 1: ثبت‌نام
             await axios.post(
-                "http://localhost:3001/api/auth/register",
+                "https://used-phone-shop-production.up.railway.app/api/auth/register",
                 submitData
             );
             toast.success("ثبت‌ نام موفق!");
 
             // مرحله 2: لاگین خودکار
             const { data } = await axios.post(
-                "http://localhost:3001/api/auth/login",
+                "https://used-phone-shop-production.up.railway.app/api/auth/login",
                 submitData
             );
 

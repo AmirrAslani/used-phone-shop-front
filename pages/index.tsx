@@ -98,7 +98,7 @@ export default function PhonesPage() {
             >
               <div className="overflow-hidden">
                 <img
-                  src={`http://localhost:3001${product.image}`}
+                  src={`https://used-phone-shop-production.up.railway.app${product.image}`}
                   alt={product.model}
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />

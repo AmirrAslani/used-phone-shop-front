@@ -134,7 +134,7 @@ export default function CartPage() {
                         {cart.items.map((item) => (
                             <div key={item.id} className="flex items-center bg-white shadow p-4 rounded-lg animate__animated animate__fadeInRight">
                                 <img
-                                    src={`http://localhost:3001${item.phone.image}`}
+                                    src={`https://used-phone-shop-production.up.railway.app${item.phone.image}`}
                                     alt={item.phone.model}
                                     className="w-24 h-24 object-cover rounded"
                                 />

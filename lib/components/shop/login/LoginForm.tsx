@@ -22,7 +22,7 @@ export default function LoginForm() {
     const handleSubmit = async (values: typeof initialValues, { setSubmitting }: FormikHelpers<LoginFormValues>) => {
         try {
             const { data } = await axios.post(
-                "http://localhost:3001/api/auth/login",
+                "https://used-phone-shop-production.up.railway.app/api/auth/login",
                 values
             );
 
