@@ -21,7 +21,10 @@ export default function PhonesPage() {
   useEffect(() => {
     getAllPhones()
       .then((res) => {
-        setProducts(res.data);
+        const data = Array.isArray(res.data) ? res.data : [];
+        setProducts(data);
+        // setProducts(res.data);
+        console.log("phones response:", res.data);
       })
       .catch(console.error);
   }, []);
