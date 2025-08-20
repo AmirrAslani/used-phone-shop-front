@@ -5,6 +5,7 @@ import { getPhoneById } from "@/services/single/singleService";
 import { IPhone } from "@/interface/components/shop.interface";
 import { addToCart } from "@/services/single/singleService";
 import { getCart } from "@/services/cart/cartService";
+import { DottedSpinner, WhiteBag, Dots } from "@/assets/common/icons";
 
 export interface ICartItem {
   id: string;
@@ -26,8 +27,10 @@ export default function PhoneDetails() {
   const router = useRouter();
   const { slug } = router.query;
   const [phone, setPhone] = useState<IPhone | null>(null);
-  const [cart, setCart] = useState<null | ICart >(null);
+  const [cart, setCart] = useState<null | ICart>(null);
   const isInCart = cart?.items?.some((item) => item.phoneId === slug);
+  const [loading, setLoading] = useState(true);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   useEffect(() => {
     getCart()
@@ -43,7 +46,11 @@ export default function PhoneDetails() {
         setPhone(res.data);
       })
 
-      .catch(console.error);
+      .catch(err => {
+        toast.error('خطا در دریافت سفارش‌ ها');
+        console.error(err);
+      })
+      .finally(() => setLoading(false));
   }, [router.isReady, slug]);
 
   const handleAddToCart = async () => {
@@ -57,24 +64,30 @@ export default function PhoneDetails() {
     if (!phone) return;
 
     try {
+      setSubmitLoading(true)
       const data = await addToCart(phone.id, 1);
       const updatedCart = await getCart();
       setCart(updatedCart.data);
       console.log("Added to cart:", data);
+      setSubmitLoading(false)
       toast.success("محصول به سبد خرید اضافه شد");
     } catch (err) {
       console.error("Error adding to cart:", err);
       toast.error("خطا در افزودن به سبد خرید");
+      setSubmitLoading(false)
     }
   };
 
+  if (loading) {
+    return <Dots/>
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-12 px-4">
-      <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
-        <div className="grid grid-cols-1 md:grid-cols-2 ">
+      <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden animate__animated animate__fadeIn">
+        <div className="grid grid-cols-1 md:grid-cols-2">
 
-          {/* تصویر */}
-          <div className="bg-gray-100 p-6 flex items-center justify-center ">
+          <div className="bg-gray-100 p-6 flex items-center justify-center">
             <img
               src={`https://used-phone-shop-production.up.railway.app${phone?.image}`}
               alt={phone?.model}
@@ -82,7 +95,6 @@ export default function PhoneDetails() {
             />
           </div>
 
-          {/* اطلاعات محصول */}
           <div className="p-8">
             <h1 className="text-3xl font-extrabold text-gray-900">{phone?.brand.toLocaleUpperCase()}</h1>
             <p className="mt-2 text-lg text-gray-700 font-medium">{phone?.model}</p>
@@ -99,7 +111,6 @@ export default function PhoneDetails() {
               <span className="text-gray-800 font-semibold">{phone?.quantity} عدد</span>
             </div>
 
-            {/* مشخصات فنی */}
             <div className="mt-8 bg-gray-50 border border-gray-200 rounded-xl p-6">
               <h2 className="text-lg font-bold text-gray-900 mb-4">مشخصات فنی</h2>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 text-sm">
@@ -113,22 +124,27 @@ export default function PhoneDetails() {
               </ul>
             </div>
 
-            {/* دکمه سفارش */}
             {isInCart ? (
               <button
                 onClick={() => router.push('/shop/cart')}
-                className="mt-8 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-700 hover:to-blue-900 text-white py-3 rounded-xl shadow-lg transition-all duration-300 text-lg font-semibold cursor-pointer"
+                className="mt-8 flex justify-center items-center w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-700 hover:to-blue-900 text-white py-3 rounded-xl shadow-lg transition-all duration-300 text-lg font-medium cursor-pointer"
               >
-                مشاهده سبد خرید
+                <span className="me-1">مشاهده سبد خرید </span><WhiteBag/>
               </button>
-
             ) : (
-
-              <button
+              <button disabled={submitLoading}
                 onClick={handleAddToCart}
-                className="mt-8 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-700 hover:to-blue-900 text-white py-3 rounded-xl shadow-lg transition-all duration-300 text-lg font-semibold cursor-pointer"
+                className="mt-8 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-700 hover:to-blue-900 text-white py-3 rounded-xl shadow-lg transition-all duration-300 text-lg font-medium cursor-pointer"
               >
-                سفارش محصول
+                {submitLoading ? (
+                  <>
+                    <DottedSpinner/>
+                  </>
+                ) : (
+                  <>
+                    سفارش محصول
+                  </>
+                )}
               </button>
             )}
           </div>

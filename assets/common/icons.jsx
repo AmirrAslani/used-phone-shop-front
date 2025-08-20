@@ -76,6 +76,13 @@ export const Bag = () => (
   </svg>
 )
 
+export const WhiteBag = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20.4101 17.03H3.6201L3.53011 17.53C3.24011 19.99 4.00011 22 7.50011 22H16.4901C20.0001 22 20.7601 19.99 20.4601 17.53L19.5601 10.03C19.3301 8.09 18.9901 6.5 15.5901 6.5H8.39011C4.99011 6.5 4.65011 8.09 4.42011 10.03L4.10012 12.7L4.0101 13.43" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M8 8V4.5C8 3 9 2 10.5 2H13.5C15 2 16 3 16 4.5V8" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+)
+
 export const Favorites = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M12 22.75C11.3 22.75 10.59 22.48 10.06 21.95L8.35001 20.26C7.93001 19.84 7.35001 19.61 6.76001 19.61H6C3.93 19.61 2.25 17.94 2.25 15.89V4.97998C2.25 2.92998 3.93 1.26001 6 1.26001H18C20.07 1.26001 21.75 2.92998 21.75 4.97998V15.89C21.75 17.94 20.07 19.61 18 19.61H17.24C16.65 19.61 16.07 19.85 15.65 20.26L13.94 21.95C13.41 22.48 12.7 22.75 12 22.75ZM6 2.75C4.76 2.75 3.75 3.74997 3.75 4.96997V15.88C3.75 17.11 4.76 18.1 6 18.1H6.76001C7.75001 18.1 8.71 18.5 9.41 19.19L11.12 20.88C11.61 21.36 12.4 21.36 12.89 20.88L14.6 19.19C15.3 18.5 16.26 18.1 17.25 18.1H18C19.24 18.1 20.25 17.1 20.25 15.88V4.96997C20.25 3.73997 19.24 2.75 18 2.75H6Z" fill="#292D32" />
@@ -144,4 +151,33 @@ export const AvatarPlaceholder = () => (
       d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
     ></path>
   </svg>
+)
+
+export const FullScreenSpinner = () => (
+  <div className="fixed inset-0 flex justify-center items-center z-50">
+    <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+  </div>
+
+)
+
+export const Spinner = () => (
+  <div className="bg-opacity-60 flex justify-center items-center">
+    <div className="w-7 h-7 border-4 border-gray-200 border-t-white rounded-full animate-spin"></div>
+  </div>
+)
+
+export const DottedSpinner = () => (
+  <div className="flex justify-center items-center">
+    <div className="w-7 h-7 border-4 border-white border-dashed rounded-full animate-spin"></div>
+  </div>
+)
+
+export const Dots = () => (
+  <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
+    <div className="flex justify-center items-center h-40 space-x-2">
+      <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce"></div>
+      <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce delay-150"></div>
+      <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce delay-300"></div>
+    </div>
+  </div>
 )

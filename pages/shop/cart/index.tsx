@@ -7,9 +7,15 @@ import { toast } from "react-toastify";
 import { updateCart } from "@/services/cart/cartService";
 import { addToOrders } from "@/services/orders/ordersService";
 import { ICart, ICartItem } from "@/interface/components/shop.interface";
+import { Dots } from "@/assets/common/icons";
 
 export default function CartPage() {
     const [cart, setCart] = useState<ICart>({ items: [], total: 0 });
+    const [loading, setLoading] = useState(true);
+    const [clearLoading, setClearLoading] = useState(false);
+    const [removeLoading, setRemoveLoading] = useState(false);
+    const [updateLoading, setUpdateLoading] = useState(false);
+    const [orderLoading, setOrderLoading] = useState(false);
     const router = useRouter()
 
     useEffect(() => {
@@ -25,10 +31,15 @@ export default function CartPage() {
                 });
                 console.log(res.data)
             })
-            .catch(err => console.error(err));
+            .catch(err => {
+                console.error(err);
+              })
+              .finally(() => setLoading(false));
+
     }, [router]);
 
     const updateQuantity = async (itemId: string, quantity: number) => {
+        setUpdateLoading(true)
         await updateCart(itemId, quantity);
 
         setCart((prev) => {
@@ -52,9 +63,10 @@ export default function CartPage() {
                 total: newTotal,
             };
         });
+        setUpdateLoading(false)
     };
 
-    const handleIncrease = (item: ICartItem) => {
+    const handleUpdate = (item: ICartItem) => {
         const newQuantity = item.quantity + 1;
 
         if (newQuantity > item.phone.quantity) return;
@@ -69,6 +81,7 @@ export default function CartPage() {
 
     const removeItem = async (itemId: string) => {
         try {
+            setRemoveLoading(true)
             await removeOneItem(itemId);
 
             setCart((prev) => {
@@ -87,47 +100,53 @@ export default function CartPage() {
                     total: newTotal,
                 };
             });
+            setRemoveLoading(false)
         } catch (error) {
             console.error("خطا در حذف:", error);
+            setRemoveLoading(false)
         }
     };
 
     const handleClearCart = async () => {
         try {
+            setClearLoading(true)
             await clearCart();
             setCart((prev) => ({
                 ...prev,
                 items: [],
                 total: 0,
             }));
+            setClearLoading(false)
             toast.success("سبد خرید شما خالی شد");
         } catch (error) {
             console.error("خطا در حذف:", error);
+            setClearLoading(false)
             toast.error("مشکلی در پاک‌ سازی سبد خرید پیش آمد");
         }
     };
 
     const handleAddToOrders = async () => {
         try {
+            setOrderLoading(true)
             await addToOrders();
             router.push('/shop/orders')
+            setOrderLoading(false)
         } catch (error) {
             console.error("خطا:", error);
+            setOrderLoading(false)
             toast.error("مشکلی پیش آمده");
         }
     };
 
-    if (!cart) return <div className="p-4">در حال بارگذاری...</div>;
+    if (!cart) return <div className="p-4 text-center">No Data!</div>;
+
+    if (loading) {
+        return <Dots/>
+    }
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
             <div className="max-w-4xl mx-auto p-4">
-
-                {/* {cart.total !== 0 ? (
-                    <h4 className="text-2xl text-gray-800 font-semibold mb-6">سبد خرید</h4>
-                ) : (
-                    <h4 className="text-xl text-gray-600 font-semibold mt-6 text-center">سبد خرید شما خالی است</h4>
-                )} */}
                 {cart.items && cart.items.length > 0 ? (
                     <div className="space-y-4">
 
@@ -148,17 +167,17 @@ export default function CartPage() {
                                 </div>
                                 <div className="flex flex-col items-center">
                                     <div className="flex items-center border rounded">
-                                        <button
+                                        <button disabled={updateLoading}
                                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                            className="px-2 py-1"
+                                            className="px-2 py-1 cursor-pointer"
                                         >
                                             -
                                         </button>
                                         <span className="px-3">{item.quantity}</span>
                                         <button
-                                            onClick={() => handleIncrease(item)}
-                                            disabled={item.quantity >= item.phone.quantity}
-                                            className="px-2 py-1"
+                                            onClick={() => handleUpdate(item)}
+                                            disabled={item.quantity >= item.phone.quantity || updateLoading}
+                                            className="px-2 py-1 cursor-pointer"
                                         >
                                             +
                                         </button>
@@ -166,9 +185,9 @@ export default function CartPage() {
                                     <p className="mt-2 font-bold">
                                         جمع: {(item.phone.price * item.quantity).toLocaleString()} تومان
                                     </p>
-                                    <button
+                                    <button disabled={removeLoading}
                                         onClick={() => removeItem(item.id)}
-                                        className="mt-2 text-red-500 hover:underline"
+                                        className="mt-2 text-red-500 hover:text-red-600 cursor-pointer"
                                     >
                                         حذف
                                     </button>
@@ -185,13 +204,13 @@ export default function CartPage() {
                             <p className="text-xl font-bold">
                                 جمع کل: {cart?.total.toLocaleString()} تومان
                             </p>
-                            <button onClick={handleAddToOrders} className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 cursor-pointer">
+                            <button disabled={orderLoading} onClick={handleAddToOrders} className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 cursor-pointer">
                                 ادامه خرید
                             </button>
                         </div>
 
                         <div className="mt-2">
-                            <button onClick={handleClearCart} className="bg-red-700 text-white px-6 py-2 rounded-lg hover:bg-red-800 cursor-pointer">
+                            <button disabled={clearLoading} onClick={handleClearCart} className="bg-red-700 text-white px-6 py-2 rounded-lg hover:bg-red-800 cursor-pointer">
                                 خالی کردن سبد
                             </button>
                         </div>

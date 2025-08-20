@@ -12,6 +12,7 @@ const Navbar = () => {
   const [profile, setProfile] = useState<{ name?: string; email?: string, avatar?: string }>({});
   const [mounted, setMounted] = useState(false);
   const [token, setToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
@@ -36,7 +37,11 @@ const Navbar = () => {
         .then((res) => {
           setProfile(res.data);
         })
-        .catch(console.error);
+        .catch(err => {
+
+          console.error(err);
+        })
+        .finally(() => setLoading(false));
     }
   }, [mounted]);
 
@@ -108,7 +113,7 @@ const Navbar = () => {
                 onClick={toggleProfileMenu}
                 className="flex items-center space-x-2 text-gray-800 hover:text-gray-600 focus:outline-none cursor-pointer"
               >
-                {profile.avatar ? (
+                {profile.avatar && !loading ? (
                   <img
                     src={`https://used-phone-shop-production.up.railway.app${profile.avatar}`}
                     alt="Profile"
@@ -116,12 +121,12 @@ const Navbar = () => {
                   />
                 ) : (
                   <img
-                    src='images/user-35.png'
+                    src='/images/user-35.png'
                     alt="Profile"
                     className="w-8 h-8 rounded-full border-2 border-gray-300"
                   />
                 )}
-                <span>{profile.name || profile.email}</span>
+                <span>{profile.name || profile.email || 'loading'}</span>
               </button>
 
               {isProfileMenuOpen && (

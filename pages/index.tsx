@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { FaHeart } from 'react-icons/fa';
 import { IPhone } from '@/interface/components/shop.interface';
+import { FullScreenSpinner } from "@/assets/common/icons";
 
 export default function PhonesPage() {
   const router = useRouter();
@@ -17,16 +18,20 @@ export default function PhonesPage() {
   const [products, setProducts] = useState<IProducts[]>([]);
   const [search, setSearch] = useState('');
   const [favorites, setFavorites] = useState<IPhone[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [likeLoading, setLikeLoading] = useState<{ [key: string]: boolean }>({});
+  const [imageLoaded, setImageLoaded] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     getAllPhones()
       .then((res) => {
         const data = Array.isArray(res.data) ? res.data : [];
         setProducts(data);
-        // setProducts(res.data);
-        console.log("phones response:", res.data);
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const filteredProducts = products.filter(product =>
@@ -41,6 +46,8 @@ export default function PhonesPage() {
       return;
     }
 
+    setLikeLoading((prev) => ({ ...prev, [phoneId]: true }));
+
     try {
       const res = await checkFavorite(phoneId);
       const isFavorite = res.isFavorite ?? res;
@@ -49,17 +56,18 @@ export default function PhonesPage() {
         await removeFavorite(phoneId);
         setFavorites((prev) => prev.filter((item) => item.id !== phoneId));
       } else {
-        const data = await addToFavorites(phoneId);
-        console.log("added item:", data);
+        await addToFavorites(phoneId);
         setFavorites((prev: IPhone[]) => [...prev, { id: phoneId } as IPhone]);
-
         toast.success("محصول به علاقه مندی ها اضافه شد");
       }
     } catch (err) {
       toast.error("خطا در بروزرسانی علاقه مندی ها");
       console.error(err);
+    } finally {
+      setLikeLoading((prev) => ({ ...prev, [phoneId]: false }));
     }
   };
+
 
   useEffect(() => {
     fetchFavorites();
@@ -73,6 +81,12 @@ export default function PhonesPage() {
       console.error("خطا در گرفتن علاقه‌ مندی‌ها:", err);
     }
   };
+
+  if (loading) {
+    return <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-10">
+      <FullScreenSpinner />
+    </div>;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-10 px-4">
@@ -93,14 +107,21 @@ export default function PhonesPage() {
           {filteredProducts.map((product) => (
             <div
               key={product.id}
-              className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate__animated animate__fadeInDown"
               onClick={() => router.push(`/shop/single/${product.id}`)}
             >
-              <div className="overflow-hidden">
+              <div className="overflow-hidden relative w-full h-70 bg-gray-50">
+                {!imageLoaded[product.id] && (
+                  <div className="absolute inset-0 animate-pulse bg-gray-300 rounded-md"></div>
+                )}
                 <img
                   src={`https://used-phone-shop-production.up.railway.app${product.image}`}
                   alt={product.model}
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                  className={`w-full h-full object-cover transition-transform duration-300 hover:scale-105 ${imageLoaded[product.id] ? "opacity-100" : "opacity-0"
+                    }`}
+                  onLoad={() =>
+                    setImageLoaded((prev) => ({ ...prev, [product.id]: true }))
+                  }
                 />
               </div>
 
@@ -112,17 +133,22 @@ export default function PhonesPage() {
                     </h2>
 
                     <div
-                      className="text-red-500 text-xl cursor-pointer"
+                      className={`text-xl cursor-pointer ${likeLoading[product.id] ? "opacity-80 pointer-events-none" : "text-red-600"}`}
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleToggleFavorite(product.id)
+                        if (!likeLoading[product.id]) handleToggleFavorite(product.id);
                       }}
                       title="افزودن به علاقه‌مندی"
                     >
-                      <FaHeart
-                        color={favorites.some((fav) => fav.id === product.id) ? "red" : "lightgray"}
-                      />
+                      {likeLoading[product.id] ? (
+                        <div className="w-4.5 h-4.5 border-2 border-red-600 border-t-transparent rounded-full animate-spin mx-auto" />
+                      ) : (
+                        <FaHeart
+                          color={favorites.some((fav) => fav.id === product.id) ? "red" : "lightgray"}
+                        />
+                      )}
                     </div>
+
                   </div>
 
                   <p className="text-sm text-gray-600 mt-1 line-clamp-2">
