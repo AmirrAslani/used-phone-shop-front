@@ -5,6 +5,7 @@ import type { AppProps } from "next/app";
 import Navbar from "@/layouts/navbar/Navbar";
 import { NextComponentType } from 'next';
 import 'animate.css/animate.css'
+import Footer from "@/layouts/footer/Footer";
 type PageWithLayout = {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
 };
@@ -19,7 +20,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     <>
       <ToastContainer rtl className="z-99"/>
       <Navbar />
-      {page}
+        {page}
+      <Footer/>
     </>
   ));
 

@@ -110,7 +110,7 @@ export default function PhonesPage() {
               className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate__animated animate__fadeInDown"
               onClick={() => router.push(`/shop/single/${product.id}`)}
             >
-              <div className="overflow-hidden relative w-full h-70 bg-gray-50">
+              <div className="overflow-hidden relative w-full h-75 bg-gray-50">
                 {!imageLoaded[product.id] && (
                   <div className="absolute inset-0 animate-pulse bg-gray-300 rounded-md"></div>
                 )}
