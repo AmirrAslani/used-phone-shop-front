@@ -38,3 +38,19 @@ export interface IButtonProps {
     text?: string | number;
     className?: string;
 }
+
+export interface IBanner {
+    src: string;
+    alt: string;
+    link?: string;
+    title?: string;
+    subtitle?: string;
+    ctaText?: string;
+    ctaLink?: string;
+}
+
+export interface ICarouselProps {
+    images: IBanner[];
+    autoPlay?: boolean;
+    interval?: number;
+}

@@ -1,6 +1,7 @@
 import { FaTelegram, FaYoutube, FaInstagram } from 'react-icons/fa';
 import { BsArrowUpCircle } from 'react-icons/bs';
 import Link from 'next/link';
+import { FooterLogo } from '@/assets/common/icons';
 
 export default function Footer() {
     return (
@@ -34,6 +35,10 @@ export default function Footer() {
                     <div className="w-full md:w-1/3 lg:w-1/4 flex flex-col items-center md:items-end gap-4">
                         <div className='flex flex-col items-center'>
                             {/* <img src="/images/logo.png" alt="EVT" className='w-[150px] mb-5' /> */}
+                            <div className='mb-5'>
+                                <FooterLogo/>
+                            </div>
+                            
                             <div className="flex gap-2">
                                 <Link
                                     className='bg-white rounded-md'
