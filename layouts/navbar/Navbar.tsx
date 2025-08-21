@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { Bag, Home, Login, Favorites } from "@/assets/common/icons";
+import { Bag, Home, Login, Favorites, Logo, LogoMobile } from "@/assets/common/icons";
 import { HiMenu, HiX } from "react-icons/hi";
 import { useRouter } from "next/router";
 import Button from "@/lib/components/base/Button";
@@ -59,7 +59,7 @@ const Navbar = () => {
       ) {
         setIsProfileMenuOpen(false);
       }
-      
+
       if (
         mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target as Node) &&
@@ -83,15 +83,46 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-gray-50 shadow-md p-4">
+    <nav className="sticky top-0 z-50 bg-gray-50 shadow-md p-3">
       <div className="container mx-auto flex items-center justify-between">
         {/* Left - Logo and Desktop Navigation */}
+        <div className="md:hidden">
+          {mounted && isLoggedIn ? (
+            <div className="flex items-center space-x-1">
+              {profile.avatar && !loading ? (
+                <img
+                  src={`https://used-phone-shop-production.up.railway.app${profile.avatar}`}
+                  alt="Profile"
+                  className="w-6 h-6 rounded-full border-2 border-gray-300"
+                />
+              ) : (
+                <img
+                  src='/images/user-35.png'
+                  alt="Profile"
+                  className="w-6 h-6 rounded-full border-2 border-gray-300"
+                />
+              )}
+              <span className="text-sm text-gray-800">{profile.name || profile.email || 'loading'}</span>
+            </div>
+          ) : (
+
+            <Link
+              href="/shop/login"
+              className="text-sm flex items-center text-gray-800 font-semibold hover:text-gray-600 gap-1"
+            >
+              <Login />
+              <span>ورود</span>
+            </Link>
+          )}
+        </div>
+
         <div className="flex items-center space-x-4">
           {/* Logo */}
+
           <div className="md:hidden">
-            <span className="text-xl font-bold">Used Phone</span>
+            <LogoMobile/>
           </div>
-          
+
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
             <Link
@@ -122,10 +153,10 @@ const Navbar = () => {
             }
           </div>
         </div>
-        
+
         {/* Center - Logo for Desktop */}
         <div className="hidden md:block">
-          <span className="text-xl font-bold">Used Phone</span>
+          <Logo/>
         </div>
 
         {/* Right - Profile and Mobile Menu Button */}
@@ -180,7 +211,7 @@ const Navbar = () => {
               </Link>
             )}
           </div>
-          
+
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMobileMenu}
@@ -190,8 +221,9 @@ const Navbar = () => {
             {isMobileMenuOpen ? <HiX /> : <HiMenu />}
           </button>
         </div>
+
       </div>
-      
+
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div ref={mobileMenuRef} className="md:hidden bg-white border-t border-gray-200 mt-2 py-4 px-4 absolute left-0 right-0 shadow-lg">
@@ -225,7 +257,7 @@ const Navbar = () => {
                 </Link>
               </>
             )}
-            
+
             <div className="border-t border-gray-200 pt-4">
               {mounted && isLoggedIn ? (
                 <>
@@ -248,8 +280,8 @@ const Navbar = () => {
                       <p className="text-gray-500 text-xs">{profile.email}</p>
                     </div>
                   </div>
-                  <Link 
-                    href="/shop/update-profile" 
+                  <Link
+                    href="/shop/update-profile"
                     className="block py-2 text-gray-800 hover:text-gray-600"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
