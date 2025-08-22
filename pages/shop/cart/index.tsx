@@ -151,25 +151,25 @@ export default function CartPage() {
                     <div className="space-y-4">
 
                         {cart.items.map((item) => (
-                            <div key={item.id} className="flex items-center bg-white shadow p-4 rounded-lg animate__animated animate__fadeInRight">
+                            <div key={item.id} className="md:flex items-center text-center md:text-right bg-white shadow p-4 rounded-lg animate__animated animate__fadeInRight">
                                 <img
                                     src={`https://used-phone-shop-production.up.railway.app${item.phone.image}`}
                                     alt={item.phone.model}
-                                    className="w-24 h-24 object-cover rounded"
+                                    className="w-24 h-24 object-cover rounded m-auto"
                                 />
                                 <div className="flex-1 ml-4">
                                     <h2 className="font-semibold">{item.phone.model}</h2>
                                     <p className="text-gray-500">{item.phone.brand}</p>
                                     <p className="mt-1 text-sm text-gray-600">{item.phone.description}</p>
-                                    <p className="mt-2 font-bold">
+                                    <p className="mt-2 md:text-lg font-bold">
                                         قیمت واحد: {item.phone.price.toLocaleString()} تومان
                                     </p>
                                 </div>
-                                <div className="flex flex-col items-center">
+                                <div className="flex flex-col items-center mt-2 md:mt-0">
                                     <div className="flex items-center border rounded">
                                         <button disabled={updateLoading}
                                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                            className="px-2 py-1 cursor-pointer"
+                                            className="px-2 py-1 cursor-pointer hover:scale-140"
                                         >
                                             -
                                         </button>
@@ -177,17 +177,17 @@ export default function CartPage() {
                                         <button
                                             onClick={() => handleUpdate(item)}
                                             disabled={item.quantity >= item.phone.quantity || updateLoading}
-                                            className="px-2 py-1 cursor-pointer"
+                                            className="px-2 py-1 cursor-pointer hover:scale-140"
                                         >
                                             +
                                         </button>
                                     </div>
-                                    <p className="mt-2 font-bold">
+                                    <p className="mt-2 font-bold md:text-lg">
                                         جمع: {(item.phone.price * item.quantity).toLocaleString()} تومان
                                     </p>
                                     <button disabled={removeLoading}
                                         onClick={() => removeItem(item.id)}
-                                        className="mt-2 text-red-500 hover:text-red-600 cursor-pointer"
+                                        className="mt-2 md:text-lg text-red-500 hover:text-red-700 cursor-pointer"
                                     >
                                         حذف
                                     </button>
@@ -196,21 +196,21 @@ export default function CartPage() {
                         ))}
                     </div>
                 ) : (
-                    <p className="text-center text-lg text-gray-700 font-semibold">سبد خرید شما خالی است</p>
+                    <p className="text-center md:text-lg text-gray-700 font-semibold">سبد خرید شما خالی است</p>
                 )}
                 {cart.total !== 0 &&
                     <>
                         <div className="mt-6 flex justify-between items-center">
-                            <p className="text-xl font-bold">
+                            <p className="md:text-xl font-bold">
                                 جمع کل: {cart?.total.toLocaleString()} تومان
                             </p>
-                            <button disabled={orderLoading} onClick={handleAddToOrders} className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 cursor-pointer">
+                            <button disabled={orderLoading} onClick={handleAddToOrders} className="bg-blue-500 text-white text-sm md:text-normal px-3 md:px-6 py-2 rounded-md md:rounded-lg hover:bg-blue-600 cursor-pointer">
                                 ادامه خرید
                             </button>
                         </div>
 
                         <div className="mt-2">
-                            <button disabled={clearLoading} onClick={handleClearCart} className="bg-red-700 text-white px-6 py-2 rounded-lg hover:bg-red-800 cursor-pointer">
+                            <button disabled={clearLoading} onClick={handleClearCart} className="bg-red-700 text-white text-sm md:text-normal px-3 md:px-6 py-2 rounded-md md:rounded-lg hover:bg-red-800 cursor-pointer">
                                 خالی کردن سبد
                             </button>
                         </div>
