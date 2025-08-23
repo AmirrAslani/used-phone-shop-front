@@ -15,9 +15,12 @@ export const getOrdersById = async (orderId: string) => {
     }
 };
 
-export const addToOrders = async () => {
+export const addToOrders = async (formData: FormData) => {
     try {
-        const res = await http.post('/order', {
+        const res = await http.post('/order/place', formData, {
+            headers: {
+                'Content-Type': 'application/json',
+              },
         });
         return res.data;
     } catch (err) {

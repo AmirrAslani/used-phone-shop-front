@@ -32,7 +32,8 @@
     id: string;
     createdAt: string;
     total: number;
-    status: 'pending' | 'paid' | 'shipped' | 'cancelled';
+    status: 'PENDING' | 'PAID' | 'SHIPPED' | 'CANCELLED' | 'DELIVERED' ;
+    address: string;
     items: {
       phoneId: string;
       quantity: number;

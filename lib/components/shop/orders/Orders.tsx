@@ -22,13 +22,15 @@ export default function Orders() {
 
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'paid':
-                return 'text-green-600';
-            case 'pending':
+            case 'PAID':
+                return 'text-green-500';
+            case 'PENDING':
                 return 'text-yellow-500';
-            case 'shipped':
+            case 'SHIPPED':
                 return 'text-blue-500';
-            case 'cancelled':
+            case 'DELIVERED':
+                return 'text-green-700';
+            case 'CANCELLED':
                 return 'text-red-500';
             default:
                 return 'text-gray-600';
@@ -37,9 +39,9 @@ export default function Orders() {
 
     if (loading) {
         return <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-10">
-          <div className="flex justify-center items-center h-40">
-            <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
-          </div>
+            <div className="flex justify-center items-center h-40">
+                <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+            </div>
         </div>;
     }
 
@@ -55,7 +57,7 @@ export default function Orders() {
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="text-lg font-bold">شماره سفارش {order.id.slice(0, 8)}...</h2>
                                 <span className={`text-sm font-semibold ${getStatusColor(order.status)}`}>
-                                    وضعیت: {order.status === 'paid' ? 'پرداخت‌ شده' : order.status === 'pending' ? 'در انتظار' : order.status === 'shipped' ? 'ارسال‌شده' : 'لغو شده'}
+                                    وضعیت: {order.status === 'PAID' ? 'پرداخت‌ شده' : order.status === 'PENDING' ? 'در انتظار' : order.status === 'SHIPPED' ? 'ارسال‌ شده' : order.status === 'DELIVERED' ? 'تحویل شده' : order.status === 'CANCELLED' ? 'لغو شده' : 'نامشخص'}
                                 </span>
                             </div>
 
@@ -63,9 +65,14 @@ export default function Orders() {
                                 تاریخ ثبت: {format(new Date(order.createdAt), 'yyyy/MM/dd - HH:mm')}
                             </div>
 
-                            <div className="text-sm text-gray-700 mb-4">مبلغ کل: {order.total.toLocaleString()} تومان</div>
+                            <div className="text-sm text-gray-700 mb-2">مبلغ کل: {order.total.toLocaleString()} تومان</div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            <div className='space-x-1'>
+                                <span className='text-gray-800'>آدرس:</span>
+                                <span className='text-gray-600'>{order.address}</span>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
                                 {order.items.map(item => (
                                     <div
                                         key={item.phoneId}

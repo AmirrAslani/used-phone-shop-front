@@ -5,7 +5,6 @@ import { clearCart, getCart } from "@/services/cart/cartService";
 import { removeOneItem } from "@/services/cart/cartService";
 import { toast } from "react-toastify";
 import { updateCart } from "@/services/cart/cartService";
-import { addToOrders } from "@/services/orders/ordersService";
 import { ICart, ICartItem } from "@/interface/components/shop.interface";
 import { Dots } from "@/assets/common/icons";
 
@@ -15,28 +14,28 @@ export default function CartPage() {
     const [clearLoading, setClearLoading] = useState(false);
     const [removeLoading, setRemoveLoading] = useState(false);
     const [updateLoading, setUpdateLoading] = useState(false);
-    const [orderLoading, setOrderLoading] = useState(false);
     const router = useRouter()
 
     useEffect(() => {
+        if (typeof window === "undefined") return;
+    
         const token = localStorage.getItem("accessToken");
         if (!token) {
-            router.push('/')
+            router.push('/');
+            return;
         }
+    
         getCart()
             .then(res => {
                 setCart({
                     items: res.data.items || [],
                     total: res.data.total || 0
                 });
-                console.log(res.data)
             })
-            .catch(err => {
-                console.error(err);
-              })
-              .finally(() => setLoading(false));
-
+            .catch(err => console.error(err))
+            .finally(() => setLoading(false));
     }, [router]);
+    
 
     const updateQuantity = async (itemId: string, quantity: number) => {
         setUpdateLoading(true)
@@ -125,23 +124,16 @@ export default function CartPage() {
         }
     };
 
-    const handleAddToOrders = async () => {
-        try {
-            setOrderLoading(true)
-            await addToOrders();
-            router.push('/shop/orders')
-            setOrderLoading(false)
-        } catch (error) {
-            console.error("خطا:", error);
-            setOrderLoading(false)
-            toast.error("مشکلی پیش آمده");
+    const handleGoToCheckout = () => {
+        if (cart.items.length) {
+            router.push('/shop/checkout');
+        } else {
+            toast.error('سبد خرید شما خالی است');
         }
     };
 
-    if (!cart) return <div className="p-4 text-center">No Data!</div>;
-
     if (loading) {
-        return <Dots/>
+        return <Dots />
     }
 
     return (
@@ -204,7 +196,8 @@ export default function CartPage() {
                             <p className="md:text-xl font-bold">
                                 جمع کل: {cart?.total.toLocaleString()} تومان
                             </p>
-                            <button disabled={orderLoading} onClick={handleAddToOrders} className="bg-blue-500 text-white text-sm md:text-normal px-3 md:px-6 py-2 rounded-md md:rounded-lg hover:bg-blue-600 cursor-pointer">
+                            
+                            <button onClick={handleGoToCheckout} className="bg-blue-500 text-white text-sm md:text-normal px-3 md:px-6 py-2 rounded-md md:rounded-lg hover:bg-blue-600 cursor-pointer">
                                 ادامه خرید
                             </button>
                         </div>
