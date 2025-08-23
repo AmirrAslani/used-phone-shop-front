@@ -137,7 +137,10 @@ export default function PhonesPage() {
             />
           </div>
 
-          <div className="h-[600px] md:h-[950px] overflow-y-scroll scrollbar-hide me-1 px-2 py-4">
+          <div
+            className={`me-1 px-2 py-4
+    ${products.length >= 5 ? "overflow-y-scroll h-[600px] md:h-[950px]" : "overflow-y-auto md:overflow-visible"}`}
+          >
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
               {filteredProducts.map((product) => (
                 <div
