@@ -1,36 +1,53 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { addToOrders } from "@/services/orders/ordersService";
 import { toast } from 'react-toastify';
 import { AxiosError } from "axios";
 import { useRouter } from "next/router";
+import { getProvinces } from "@/services/provinces/provincesService";
+import { Spinner } from "@/assets/common/icons";
 
 export default function CheckoutPage() {
     const router = useRouter()
+    const [provinces, setProvinces] = useState<{ id: string; name: string }[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        getProvinces()
+            .then(res => {
+                setProvinces(res.data);
+            })
+            .catch(err => {
+                toast.error('خطا در دریافت استان ها');
+                console.error(err);
+            })
+            .finally(() => setLoading(false))
+    }, []);
+
 
     const formik = useFormik({
         initialValues: {
+            provinceId: "",
             address: "",
-            city: "",
             phoneNumber: "",
             note: "",
             postalCode: "",
         },
         validationSchema: Yup.object({
-            address: Yup.string().required("آدرس الزامی است"),
-            city: Yup.string().required("نام شهر الزامی است"),
+            address: Yup.string().required("آدرس الزامی است").min(10, "آدرس حداقل باید 10 کاراکتر باشد").max(80, "آدرس حداکثر باید 80 کاراکتر باشد"),
+            provinceId: Yup.string().required("استان را انتخاب کنید"),
             phoneNumber: Yup.string()
                 .matches(/^09\d{9}$/, "شماره موبایل معتبر وارد کنید")
                 .required("شماره موبایل الزامی است"),
-            note: Yup.string().min(10, "یادداشت حداقل باید 10 کاراکتر باشد").max(90, "یادداشت حداکثر باید 90 کاراکتر باشد").notRequired(),
-            postalCode: Yup.string().required("کد پستی الزامی است"),
+            note: Yup.string().min(10, "یادداشت حداقل باید 10 کاراکتر باشد").max(180, "یادداشت حداکثر باید 180 کاراکتر باشد").notRequired(),
+            postalCode: Yup.string().required("کد پستی الزامی است").min(10, "کد پستی باید 10 رقم باشد").max(10, "کد پستی باید 10 رقم باشد"),
         }),
         onSubmit: async (values, { setSubmitting, resetForm }) => {
             try {
                 const formData = new FormData();
                 formData.append("address", values.address);
-                formData.append("city", values.city);
+                formData.append("provinceId", values.provinceId);
                 formData.append("phoneNumber", values.phoneNumber);
                 formData.append("note", values.note);
                 formData.append("postalCode", values.postalCode);
@@ -44,9 +61,6 @@ export default function CheckoutPage() {
                 if (err instanceof AxiosError) {
                     console.error("خطا در ثبت سفارش:", err);
 
-                    if (err.response?.status === 400) {
-                        toast.error("سبد خرید شما خالی است!");
-                    }
                 } else {
                     console.error("خطای ناشناخته:", err);
                 }
@@ -75,19 +89,25 @@ export default function CheckoutPage() {
                         <p className="text-red-500 text-sm">{formik.errors.address}</p>
                     )}
                 </div>
-
+                
                 <div>
-                    <label className="block mb-1 font-medium">نام شهر</label>
-                    <input
-                        type="text"
-                        name="city"
+                    <select
+                        name="provinceId"
                         className="w-full border rounded-md p-2"
-                        value={formik.values.city}
+                        value={formik.values.provinceId}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.city && formik.errors.city && (
-                        <p className="text-red-500 text-sm">{formik.errors.city}</p>
+                    >
+                        <option value="">{loading ? 'در حال بارگذاری...': 'انتخاب کنید'}</option>
+
+                        {provinces.map((p) => (
+                            <option key={p.id} value={p.id}>
+                                {p.name}
+                            </option>
+                        ))}
+                    </select>
+                    {formik.touched.provinceId && formik.errors.provinceId && (
+                        <p className="text-red-500 text-sm">{formik.errors.provinceId}</p>
                     )}
                 </div>
 
@@ -140,7 +160,7 @@ export default function CheckoutPage() {
                     disabled={formik.isSubmitting}
                     className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition cursor-pointer"
                 >
-                    {formik.isSubmitting ? "در حال انجام..." : "ثبت سفارش"}
+                    {formik.isSubmitting ? <Spinner customClassName="!size-6"/> : "ثبت سفارش"}
                 </button>
             </form>
         </div>
