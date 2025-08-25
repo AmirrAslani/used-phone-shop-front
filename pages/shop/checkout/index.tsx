@@ -12,22 +12,28 @@ export default function CheckoutPage() {
     const formik = useFormik({
         initialValues: {
             address: "",
+            city: "",
             phoneNumber: "",
             note: "",
+            postalCode: "",
         },
         validationSchema: Yup.object({
             address: Yup.string().required("آدرس الزامی است"),
+            city: Yup.string().required("نام شهر الزامی است"),
             phoneNumber: Yup.string()
                 .matches(/^09\d{9}$/, "شماره موبایل معتبر وارد کنید")
                 .required("شماره موبایل الزامی است"),
             note: Yup.string().min(10, "یادداشت حداقل باید 10 کاراکتر باشد").max(90, "یادداشت حداکثر باید 90 کاراکتر باشد").notRequired(),
+            postalCode: Yup.string().required("کد پستی الزامی است"),
         }),
         onSubmit: async (values, { setSubmitting, resetForm }) => {
             try {
                 const formData = new FormData();
                 formData.append("address", values.address);
+                formData.append("city", values.city);
                 formData.append("phoneNumber", values.phoneNumber);
                 formData.append("note", values.note);
+                formData.append("postalCode", values.postalCode);
 
                 await addToOrders(formData);
                 toast.success("سفارش شما با موفقیت ثبت شد");
@@ -71,6 +77,21 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
+                    <label className="block mb-1 font-medium">نام شهر</label>
+                    <input
+                        type="text"
+                        name="city"
+                        className="w-full border rounded-md p-2"
+                        value={formik.values.city}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.city && formik.errors.city && (
+                        <p className="text-red-500 text-sm">{formik.errors.city}</p>
+                    )}
+                </div>
+
+                <div>
                     <label className="block mb-1 font-medium">یادداشت</label>
                     <textarea
                         name="note"
@@ -97,6 +118,20 @@ export default function CheckoutPage() {
                     />
                     {formik.touched.phoneNumber && formik.errors.phoneNumber && (
                         <p className="text-red-500 text-sm">{formik.errors.phoneNumber}</p>
+                    )}
+                </div>
+                <div>
+                    <label className="block mb-1 font-medium">کد پستی</label>
+                    <input
+                        type="text"
+                        name="postalCode"
+                        className="w-full border rounded-md p-2"
+                        value={formik.values.postalCode}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.postalCode && formik.errors.postalCode && (
+                        <p className="text-red-500 text-sm">{formik.errors.postalCode}</p>
                     )}
                 </div>
 
