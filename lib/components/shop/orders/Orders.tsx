@@ -79,7 +79,7 @@ export default function Orders() {
                                         className="flex items-center gap-4 p-3 border border-blue-300 rounded-lg bg-gray-50"
                                     >
                                         <img
-                                            src={`https://used-phone-shop-production.up.railway.app${item.phone.image}`}
+                                            src={item.phone.image}
                                             alt={item.phone.model}
                                             className="w-16 h-16 object-contain rounded"
                                         />

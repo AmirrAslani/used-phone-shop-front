@@ -52,7 +52,7 @@ export default function Favorites() {
                                 <div key={item.id} className="shadow-lg border border-gray-200 rounded-xl shadow px-4 pb-2 bg-white animate__animated animate__bounceInUp">
                                     <div className="w-full my-4 flex justify-between">
                                         <img
-                                            src={`https://used-phone-shop-production.up.railway.app${item.image}`}
+                                            src={item.image}
                                             alt={item.model}
                                             className="w-24 h-24 object-cover rounded"
                                         />

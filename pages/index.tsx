@@ -154,7 +154,7 @@ export default function PhonesPage() {
                       <div className="absolute inset-0 animate-pulse bg-gray-300 rounded-md"></div>
                     )}
                     <img
-                      src={`https://used-phone-shop-production.up.railway.app${product.image}`}
+                      src={product.image}
                       alt={product.model}
                       className={`w-full h-full transition-transform duration-300 hover:scale-105 ${imageLoaded[product.id] ? "opacity-100" : "opacity-0"
                         }`}

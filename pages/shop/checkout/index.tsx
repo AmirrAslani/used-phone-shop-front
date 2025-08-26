@@ -76,6 +76,28 @@ export default function CheckoutPage() {
 
             <form onSubmit={formik.handleSubmit} className="space-y-4">
                 <div>
+                    <label className="block mb-1 font-medium">استان</label>
+                    <select
+                        name="provinceId"
+                        className="w-full border rounded-md p-2"
+                        value={formik.values.provinceId}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    >
+                        <option value="">{loading ? 'در حال بارگذاری...' : 'انتخاب کنید'}</option>
+
+                        {provinces.map((p) => (
+                            <option key={p.id} value={p.id}>
+                                {p.name}
+                            </option>
+                        ))}
+                    </select>
+                    {formik.touched.provinceId && formik.errors.provinceId && (
+                        <p className="text-red-500 text-sm">{formik.errors.provinceId}</p>
+                    )}
+                </div>
+
+                <div>
                     <label className="block mb-1 font-medium">آدرس</label>
                     <textarea
                         name="address"
@@ -87,27 +109,6 @@ export default function CheckoutPage() {
                     />
                     {formik.touched.address && formik.errors.address && (
                         <p className="text-red-500 text-sm">{formik.errors.address}</p>
-                    )}
-                </div>
-                
-                <div>
-                    <select
-                        name="provinceId"
-                        className="w-full border rounded-md p-2"
-                        value={formik.values.provinceId}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    >
-                        <option value="">{loading ? 'در حال بارگذاری...': 'انتخاب کنید'}</option>
-
-                        {provinces.map((p) => (
-                            <option key={p.id} value={p.id}>
-                                {p.name}
-                            </option>
-                        ))}
-                    </select>
-                    {formik.touched.provinceId && formik.errors.provinceId && (
-                        <p className="text-red-500 text-sm">{formik.errors.provinceId}</p>
                     )}
                 </div>
 
@@ -160,7 +161,7 @@ export default function CheckoutPage() {
                     disabled={formik.isSubmitting}
                     className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition cursor-pointer"
                 >
-                    {formik.isSubmitting ? <Spinner customClassName="!size-6"/> : "ثبت سفارش"}
+                    {formik.isSubmitting ? <Spinner customClassName="!size-6" /> : "ثبت سفارش"}
                 </button>
             </form>
         </div>

@@ -91,7 +91,7 @@ const Navbar = () => {
             <div className="flex items-center space-x-1">
               {profile.avatar && !loading ? (
                 <img
-                  src={`https://used-phone-shop-production.up.railway.app${profile.avatar}`}
+                  src={profile.avatar}
                   alt="Profile"
                   className="w-6 h-6 rounded-full border-2 border-gray-300"
                 />
@@ -170,7 +170,7 @@ const Navbar = () => {
                 >
                   {profile.avatar && !loading ? (
                     <img
-                      src={`https://used-phone-shop-production.up.railway.app${profile.avatar}`}
+                      src={profile.avatar}
                       alt="Profile"
                       className="w-8 h-8 rounded-full border-2 border-gray-300"
                     />
@@ -264,7 +264,7 @@ const Navbar = () => {
                   <div className="flex items-center space-x-2 mb-4">
                     {profile.avatar && !loading ? (
                       <img
-                        src={`https://used-phone-shop-production.up.railway.app${profile.avatar}`}
+                        src={profile.avatar}
                         alt="Profile"
                         className="w-8 h-8 rounded-full border-2 border-gray-300"
                       />

@@ -40,7 +40,7 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
               {/* تصویر */}
               <div className="relative w-full h-40 flex items-center justify-center bg-gray-50">
                 <img
-                  src={`https://used-phone-shop-production.up.railway.app${product.image}`}
+                  src={product.image}
                   alt={product.model}
                   className="object-contain h-full w-auto transition-transform duration-300 hover:scale-105"
                 />
