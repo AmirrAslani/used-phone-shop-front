@@ -1,4 +1,5 @@
 import Favorites from "@/lib/components/shop/favorites/Favorites";
+import { withAuth } from "@/utils/withAuth";
 
 const FavoritesPage = () => {
 
@@ -10,3 +11,14 @@ const FavoritesPage = () => {
 
 }
 export default FavoritesPage;
+
+export const getServerSideProps = withAuth(
+    async () => {
+      return { props: {} };
+    },
+    {
+      destination: "/",
+      permanent: false,
+      redirectIf: (token) => !token
+    }
+);

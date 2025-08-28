@@ -5,17 +5,18 @@ import { HiMenu, HiX } from "react-icons/hi";
 import { useRouter } from "next/router";
 import Button from "@/lib/components/base/Button";
 import { getProfile } from "@/services/auth/authService";
+import { useCookies } from "react-cookie";
 
 const Navbar = () => {
   const router = useRouter();
+  const [cookies, removeCookie] = useCookies(["accessToken"]);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [profile, setProfile] = useState<{ name?: string; email?: string, avatar?: string }>({});
   const [mounted, setMounted] = useState(false);
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null | boolean>(null);
   const [loading, setLoading] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   const profileMenuRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
@@ -34,7 +35,7 @@ const Navbar = () => {
   useEffect(() => {
     if (!mounted) return;
 
-    const token = localStorage.getItem("accessToken");
+    const token = cookies.accessToken;
 
     if (token) {
       setToken(token)
@@ -49,7 +50,7 @@ const Navbar = () => {
         })
         .finally(() => setLoading(false));
     }
-  }, [mounted]);
+  }, [mounted, cookies]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -76,11 +77,16 @@ const Navbar = () => {
   }, []);
 
   const handleSignOut = () => {
-    localStorage.removeItem("accessToken");
-    setIsLoggedIn(false);
+    removeCookie("accessToken", { path: "/" });
     setIsProfileMenuOpen(false);
-    router.push("/shop/login");
+
+    setTimeout(() => {
+      router.push("/shop/login");
+    }, 400);
   };
+
+  
+
 
   return (
     <nav className="sticky top-0 z-50 bg-gray-50 shadow-md p-3">
@@ -120,7 +126,7 @@ const Navbar = () => {
           {/* Logo */}
 
           <div className="md:hidden">
-            <LogoMobile/>
+            <LogoMobile />
           </div>
 
           {/* Desktop Navigation */}
@@ -156,7 +162,7 @@ const Navbar = () => {
 
         {/* Center - Logo for Desktop */}
         <div className="hidden md:block">
-          <Logo/>
+          <Logo />
         </div>
 
         {/* Right - Profile and Mobile Menu Button */}
@@ -290,7 +296,6 @@ const Navbar = () => {
                   <button
                     onClick={() => {
                       handleSignOut();
-                      setIsMobileMenuOpen(false);
                     }}
                     className="w-full text-right py-2 text-gray-800 hover:text-gray-600"
                   >

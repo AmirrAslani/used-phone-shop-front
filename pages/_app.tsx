@@ -6,6 +6,8 @@ import Navbar from "@/layouts/navbar/Navbar";
 import { NextComponentType } from 'next';
 import 'animate.css/animate.css'
 import Footer from "@/layouts/footer/Footer";
+import { CookiesProvider } from "react-cookie";
+
 type PageWithLayout = {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
 };
@@ -18,12 +20,22 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout || ((page) => (
     <>
-      <ToastContainer rtl className="z-99"/>
-      <Navbar />
+        <ToastContainer rtl className="z-9999" />
+        <Navbar />
         {page}
-      <Footer/>
+        <Footer />
     </>
   ));
 
-  return getLayout(<Component {...pageProps} />);
+  return (
+    <CookiesProvider
+      defaultSetOptions={{
+        path: "/",
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+      }}
+    >
+      {getLayout(<Component {...pageProps} />)}
+    </CookiesProvider>
+  );
 }

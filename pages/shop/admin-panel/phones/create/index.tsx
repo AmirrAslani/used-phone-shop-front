@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { createPhone } from "@/services/admin-panel/phoneService";
 import { toast } from "react-toastify";
+import { withAuth } from "@/utils/withAuth";
 
 interface Specs {
     cpu?: string;
@@ -210,3 +211,14 @@ const CreatePhone: React.FC = () => {
 };
 
 export default CreatePhone;
+
+export const getServerSideProps = withAuth(
+    async () => {
+      return { props: {} };
+    },
+    {
+      destination: "/",
+      permanent: false,
+      redirectIf: (token) => !token
+    }
+);

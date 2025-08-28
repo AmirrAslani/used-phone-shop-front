@@ -9,6 +9,7 @@ import { DottedSpinner, WhiteBag, Dots } from "@/assets/common/icons";
 import { ProductCarousel } from "@/lib/components/shop/productCarousel/ProductCarousel";
 import { IProducts } from "@/interface/components/shop.interface";
 import { getAllPhones } from "@/services/single/singleService";
+import { useCookies } from "react-cookie";
 
 export interface ICartItem {
   id: string;
@@ -35,6 +36,7 @@ export default function PhoneDetails() {
   const [loading, setLoading] = useState(true);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [products, setProducts] = useState<IProducts[]>([]);
+  const [cookies] = useCookies(["accessToken"]);
 
   useEffect(() => {
     getAllPhones()
@@ -70,7 +72,7 @@ export default function PhoneDetails() {
   }, [router.isReady, slug]);
 
   const handleAddToCart = async () => {
-    const token = localStorage.getItem("accessToken");
+    const token = cookies.accessToken;
     if (!token) {
       toast.warn("برای افزودن به سبد خرید وارد شوید");
       router.push("/shop/login");

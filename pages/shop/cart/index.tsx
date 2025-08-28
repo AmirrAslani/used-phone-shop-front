@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { updateCart } from "@/services/cart/cartService";
 import { ICart, ICartItem } from "@/interface/components/shop.interface";
 import { Dots } from "@/assets/common/icons";
+import { useCookies } from "react-cookie";
+import { withAuth } from "@/utils/withAuth";
 
 export default function CartPage() {
     const [cart, setCart] = useState<ICart>({ items: [], total: 0 });
@@ -14,14 +16,14 @@ export default function CartPage() {
     const [clearLoading, setClearLoading] = useState(false);
     const [removeLoading, setRemoveLoading] = useState(false);
     const [updateLoading, setUpdateLoading] = useState(false);
+    const [cookies] = useCookies(["accessToken"]);
     const router = useRouter()
 
     useEffect(() => {
         if (typeof window === "undefined") return;
     
-        const token = localStorage.getItem("accessToken");
+        const token = cookies.accessToken;
         if (!token) {
-            router.push('/');
             return;
         }
     
@@ -213,3 +215,14 @@ export default function CartPage() {
         </div>
     );
 }
+
+export const getServerSideProps = withAuth(
+    async () => {
+      return { props: {} };
+    },
+    {
+      destination: "/",
+      permanent: false,
+      redirectIf: (token) => !token
+    }
+);

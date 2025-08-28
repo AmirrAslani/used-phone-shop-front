@@ -1,20 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import LoginForm from "@/lib/components/shop/login/LoginForm";
 import RegisterForm from "@/lib/components/shop/Register/RegisterForm";
 import { ReactElement } from "react";
 import { ToastContainer } from "react-toastify";
-import { useRouter } from "next/router";
+import { withAuth } from "@/utils/withAuth";
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
-  const router = useRouter();
-
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      router.push("/");
-    }
-  }, [router]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-500 via-blue-300 to-red-400 flex items-center justify-center px-4">
@@ -48,3 +40,15 @@ AuthPage.getLayout = function PageLayout(page: ReactElement) {
     </>
   )
 }
+
+export const getServerSideProps = withAuth(
+  async () => {
+    return { props: {} };
+  },
+  {
+    destination: "/",
+    permanent: true,
+    redirectIf: (token) => !!token
+  }
+);
+

@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 // ساخت instance اختصاصی axios
 const http = axios.create({
@@ -6,13 +7,14 @@ const http = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  // withCredentials: true,
 });
 
 // اضافه کردن توکن به هر درخواست
 http.interceptors.request.use(
   (config) => {
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem("accessToken");
+      const token = Cookies.get("accessToken");
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -28,7 +30,7 @@ http.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       console.warn("توکن معتبر نیست یا منقضی شده");
-      localStorage.removeItem("accessToken")
+      Cookies.remove("accessToken");
     }
     return Promise.reject(error);
   }

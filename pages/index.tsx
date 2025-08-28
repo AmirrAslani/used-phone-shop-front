@@ -13,6 +13,7 @@ import { IPhone } from '@/interface/components/shop.interface';
 import { FullScreenSpinner } from "@/assets/common/icons";
 import Carousel from "@/lib/components/base/Carousel";
 import { ProductCarousel } from "@/lib/components/shop/productCarousel/ProductCarousel";
+import { useCookies } from "react-cookie";
 
 const banners = [
   {
@@ -43,7 +44,7 @@ const banners = [
 
 export default function PhonesPage() {
   const router = useRouter();
-
+  const [cookies] = useCookies(["accessToken"]);
   const [products, setProducts] = useState<IProducts[]>([]);
   const [search, setSearch] = useState('');
   const [favorites, setFavorites] = useState<IPhone[]>([]);
@@ -68,7 +69,7 @@ export default function PhonesPage() {
   );
 
   const handleToggleFavorite = async (phoneId: string) => {
-    const token = localStorage.getItem("accessToken");
+    const token = cookies.accessToken;
     if (!token) {
       toast.warn("برای افزودن به علاقه مندی وارد شوید");
       router.push("/shop/login");

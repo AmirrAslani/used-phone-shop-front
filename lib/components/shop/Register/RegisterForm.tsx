@@ -1,18 +1,20 @@
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import axios, {AxiosError} from "axios";
+import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
 
 interface RegisterFormValues {
     email: string;
     password: string;
     name: string;
     confirmPassword: string
-  }
-  
+}
+
 export default function RegisterForm() {
     const router = useRouter();
+    const [, setCookie] = useCookies(["accessToken"]);
 
     const initialValues = { name: "", email: "", password: "", confirmPassword: "" };
 
@@ -30,13 +32,12 @@ export default function RegisterForm() {
             // Only send name, email, and password to backend (exclude confirmPassword)
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { confirmPassword, ...submitData } = values;
-            
+
             // مرحله 1: ثبت‌نام
             await axios.post(
                 "https://used-phone-shop-production.up.railway.app/api/auth/register",
                 submitData
             );
-            toast.success("ثبت‌ نام موفق!");
 
             // مرحله 2: لاگین خودکار
             const { data } = await axios.post(
@@ -45,7 +46,12 @@ export default function RegisterForm() {
             );
 
             if (data.access_token) {
-                localStorage.setItem("accessToken", data.access_token);
+                setCookie("accessToken", data.access_token, {
+                    path: "/",          // همه صفحات دسترسی داشته باشن
+                    maxAge: 60 * 60 * 24 * 7, // 7 روز
+                    sameSite: "strict",
+                    secure: process.env.NODE_ENV === "production", // فقط https روی پروداکشن
+                });
                 toast.success("خوش اومدین یاشاسین");
                 router.push("/");
             }

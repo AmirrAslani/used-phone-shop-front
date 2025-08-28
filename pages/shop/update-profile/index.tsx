@@ -1,4 +1,5 @@
 import UpdateProfileForm from "@/lib/components/shop/updateProfile/UpdateProfile";
+import { withAuth } from "@/utils/withAuth";
 
 const UpdateProfilesPage = () => {
 
@@ -12,3 +13,14 @@ const UpdateProfilesPage = () => {
 
 }
 export default UpdateProfilesPage;
+
+export const getServerSideProps = withAuth(
+    async () => {
+      return { props: {} };
+    },
+    {
+      destination: "/",
+      permanent: false,
+      redirectIf: (token) => !token
+    }
+);

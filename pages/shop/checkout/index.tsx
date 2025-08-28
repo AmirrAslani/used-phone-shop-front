@@ -7,6 +7,7 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import { getProvinces } from "@/services/provinces/provincesService";
 import { Spinner } from "@/assets/common/icons";
+import { withAuth } from "@/utils/withAuth";
 
 export default function CheckoutPage() {
     const router = useRouter()
@@ -167,3 +168,15 @@ export default function CheckoutPage() {
         </div>
     );
 }
+
+export const getServerSideProps = withAuth(
+    async () => {
+      return { props: {} };
+    },
+    {
+      destination: "/",
+      permanent: false,
+      redirectIf: (token) => !token
+    }
+);
+  
