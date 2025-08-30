@@ -12,7 +12,7 @@ interface LoginFormValues {
 
 export default function LoginForm() {
   const router = useRouter();
-  const [, setCookie] = useCookies(["accessToken"]); // ست کردن کوکی
+  const [, setCookie] = useCookies(["accessToken", "role"]); // ست کردن کوکی
 
   const initialValues: LoginFormValues = { email: "", password: "" };
 
@@ -32,12 +32,18 @@ export default function LoginForm() {
       );
 
       if (data.access_token) {
-        // ذخیره توی کوکی به جای localStorage
         setCookie("accessToken", data.access_token, {
-          path: "/",          // همه صفحات دسترسی داشته باشن
-          maxAge: 60 * 60 * 24 * 7, // 7 روز
+          path: "/",
+          maxAge: 60 * 60 * 24 * 3, // 3 روز
           sameSite: "strict",
           secure: process.env.NODE_ENV === "production", // فقط https روی پروداکشن
+        });
+
+        setCookie("role", data.role, {
+          path: "/",
+          maxAge: 60 * 60 * 24 * 3, // 3 روز
+          sameSite: "strict",
+          secure: process.env.NODE_ENV === "production",
         });
 
         toast.success("خوش اومدین یاشاسین");

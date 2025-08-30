@@ -1,31 +1,39 @@
 import "@/styles/globals.css";
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 import type { AppProps } from "next/app";
-import Navbar from "@/layouts/navbar/Navbar";
-import { NextComponentType } from 'next';
-import 'animate.css/animate.css'
-import Footer from "@/layouts/footer/Footer";
+import { useRouter } from "next/router";
+import "animate.css/animate.css";
 import { CookiesProvider } from "react-cookie";
+import AuthPage from "./shop/login";
+import MainLayout from "@/layouts/mainLayout/MainLayout";
+import AdminLayout from "@/layouts/adminLayout/AdminLayout";
 
-type PageWithLayout = {
-  getLayout?: (page: React.ReactElement) => React.ReactNode;
-};
+export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
 
-type AppPropsWithLayout = AppProps & {
-  Component: NextComponentType & PageWithLayout;
-};
+  const isAdminRoute = router.pathname.startsWith("/shop/admin");
+  const isLoginRoute = router.pathname.startsWith("/shop/login");
 
-export default function App({ Component, pageProps }: AppPropsWithLayout) {
-  // Use the layout defined at the page level, if available
-  const getLayout = Component.getLayout || ((page) => (
-    <>
+  const getLayout = (page: React.ReactNode) => {
+    if (isAdminRoute) {
+      return (
+        <AdminLayout>
+          <ToastContainer rtl className="z-9999" />
+          {page}
+        </AdminLayout>
+      );
+    } else if (isLoginRoute){
+      return <AuthPage/>
+    }
+
+    return (
+      <MainLayout>
         <ToastContainer rtl className="z-9999" />
-        <Navbar />
         {page}
-        <Footer />
-    </>
-  ));
+      </MainLayout>
+    );
+  };
 
   return (
     <CookiesProvider

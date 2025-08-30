@@ -145,7 +145,7 @@ export default function PhoneDetails() {
 
               {isInCart ? (
                 <button
-                  onClick={() => router.push('/shop/cart')}
+                  onClick={() => router.push('/shop/user/cart')}
                   className="mt-4 md:mt-10 flex justify-center items-center w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-700 hover:to-blue-900 text-white py-3 rounded-xl shadow-lg transition-all duration-300 text-lg font-medium cursor-pointer"
                 >
                   <span className="me-1">مشاهده سبد خرید </span><WhiteBag />

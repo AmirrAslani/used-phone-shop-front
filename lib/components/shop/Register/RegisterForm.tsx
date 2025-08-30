@@ -14,7 +14,7 @@ interface RegisterFormValues {
 
 export default function RegisterForm() {
     const router = useRouter();
-    const [, setCookie] = useCookies(["accessToken"]);
+    const [, setCookie] = useCookies(["accessToken", "role"]);
 
     const initialValues = { name: "", email: "", password: "", confirmPassword: "" };
 
@@ -47,11 +47,18 @@ export default function RegisterForm() {
 
             if (data.access_token) {
                 setCookie("accessToken", data.access_token, {
-                    path: "/",          // همه صفحات دسترسی داشته باشن
-                    maxAge: 60 * 60 * 24 * 7, // 7 روز
+                    path: "/",
+                    maxAge: 60 * 60 * 24 * 3,
                     sameSite: "strict",
-                    secure: process.env.NODE_ENV === "production", // فقط https روی پروداکشن
+                    secure: process.env.NODE_ENV === "production",
                 });
+
+                setCookie("role", data.role, {
+                    path: "/",
+                    maxAge: 60 * 60 * 24 * 3, // 3 روز
+                    sameSite: "strict",
+                    secure: process.env.NODE_ENV === "production",
+                  });
                 toast.success("خوش اومدین یاشاسین");
                 router.push("/");
             }

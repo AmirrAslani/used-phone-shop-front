@@ -7,7 +7,6 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import { getProvinces } from "@/services/provinces/provincesService";
 import { Spinner } from "@/assets/common/icons";
-import { withAuth } from "@/utils/withAuth";
 
 export default function CheckoutPage() {
     const router = useRouter()
@@ -56,7 +55,7 @@ export default function CheckoutPage() {
                 await addToOrders(formData);
                 toast.success("سفارش شما با موفقیت ثبت شد");
                 resetForm();
-                router.push('/shop/orders')
+                router.push('/shop/user/orders')
             } catch (err) {
                 console.error("خطا در ثبت سفارش:", err);
                 if (err instanceof AxiosError) {
@@ -168,15 +167,3 @@ export default function CheckoutPage() {
         </div>
     );
 }
-
-export const getServerSideProps = withAuth(
-    async () => {
-      return { props: {} };
-    },
-    {
-      destination: "/",
-      permanent: false,
-      redirectIf: (token) => !token
-    }
-);
-  

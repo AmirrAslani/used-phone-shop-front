@@ -1,9 +1,6 @@
 import { useState } from "react";
 import LoginForm from "@/lib/components/shop/login/LoginForm";
 import RegisterForm from "@/lib/components/shop/Register/RegisterForm";
-import { ReactElement } from "react";
-import { ToastContainer } from "react-toastify";
-import { withAuth } from "@/utils/withAuth";
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -31,24 +28,4 @@ export default function AuthPage() {
     </div>
   );
 }
-
-AuthPage.getLayout = function PageLayout(page: ReactElement) {
-  return (
-    <>
-      <ToastContainer/>
-      {page}
-    </>
-  )
-}
-
-export const getServerSideProps = withAuth(
-  async () => {
-    return { props: {} };
-  },
-  {
-    destination: "/",
-    permanent: true,
-    redirectIf: (token) => !!token
-  }
-);
 

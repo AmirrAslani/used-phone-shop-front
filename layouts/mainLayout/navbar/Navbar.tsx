@@ -9,7 +9,7 @@ import { useCookies } from "react-cookie";
 
 const Navbar = () => {
   const router = useRouter();
-  const [cookies, removeCookie] = useCookies(["accessToken"]);
+  const [cookies, removeCookie] = useCookies(["accessToken", "role"]);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [profile, setProfile] = useState<{ name?: string; email?: string, avatar?: string }>({});
@@ -78,15 +78,13 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     removeCookie("accessToken", { path: "/" });
+    removeCookie("role", { path: "/" });
     setIsProfileMenuOpen(false);
 
     setTimeout(() => {
       router.push("/shop/login");
-    }, 400);
+    }, 1000);
   };
-
-  
-
 
   return (
     <nav className="sticky top-0 z-50 bg-gray-50 shadow-md p-3">
@@ -142,14 +140,14 @@ const Navbar = () => {
             {token &&
               <>
                 <Link
-                  href="/shop/cart"
+                  href="/shop/user/cart"
                   className="flex items-center space-x-1 font-medium text-gray-800 hover:text-gray-600"
                 >
                   <Bag />
                   <span>سبد خرید</span>
                 </Link>
                 <Link
-                  href="/shop/favorites"
+                  href="/shop/user/favorites"
                   className="flex items-center space-x-1 font-medium text-gray-800 hover:text-gray-600"
                 >
                   <Favorites />
@@ -197,7 +195,7 @@ const Navbar = () => {
                       <p className="text-gray-500">{profile.email}</p>
                     </div>
                     <div className="px-3 py-2">
-                      <Link className="mb-3 hover:text-gray-500 block" href={'/shop/update-profile'}>ویرایش پروفایل</Link>
+                      <Link className="mb-3 hover:text-gray-500 block" href={'/shop/user/update-profile'}>ویرایش پروفایل</Link>
                       <Button
                         onClick={handleSignOut}
                         text="خروج"
@@ -246,7 +244,7 @@ const Navbar = () => {
             {token && (
               <>
                 <Link
-                  href="/shop/cart"
+                  href="/shop/user/cart"
                   className="flex items-center space-x-2 font-medium text-gray-800 hover:text-gray-600 py-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -254,7 +252,7 @@ const Navbar = () => {
                   <span>سبد خرید</span>
                 </Link>
                 <Link
-                  href="/shop/favorites"
+                  href="/shop/user/favorites"
                   className="flex items-center space-x-2 font-medium text-gray-800 hover:text-gray-600 py-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -287,7 +285,7 @@ const Navbar = () => {
                     </div>
                   </div>
                   <Link
-                    href="/shop/update-profile"
+                    href="/shop/user/update-profile"
                     className="block py-2 text-gray-800 hover:text-gray-600"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
