@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { createPhone } from "@/services/admin-panel/phoneService";
+import { createPhone } from "@/services/admin/phoneService";
 import { toast } from "react-toastify";
 
 interface Specs {

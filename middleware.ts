@@ -19,7 +19,7 @@ export function middleware(req: NextRequest) {
     }
   }
 
-  // admin route
+  // login route
   if (req.nextUrl.pathname.startsWith("/shop/login")) {
     if (token) {
       return NextResponse.redirect(new URL("/", req.url));

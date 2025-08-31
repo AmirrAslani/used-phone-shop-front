@@ -65,7 +65,7 @@ export default function PhoneDetails() {
       })
 
       .catch(err => {
-        toast.error('خطا در دریافت سفارش‌ ها');
+        toast.error('خطا در دریافت محصول');
         console.error(err);
       })
       .finally(() => setLoading(false));
