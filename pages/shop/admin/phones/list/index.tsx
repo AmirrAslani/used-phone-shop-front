@@ -2,12 +2,12 @@ import DataTable from "@/lib/components/base/DataTable";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getAllPhones } from "@/services/single/singleService";
+import { IProducts } from "@/interface/components/shop.interface";
 
 const PAGE_SIZES = [10, 20, 30, 50];
 
 export default function ProductsTable() {
-  const [products, setProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<IProducts[]>([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
 
@@ -20,7 +20,6 @@ export default function ProductsTable() {
       .catch((err) => {
         console.error(err);
       })
-      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -38,7 +37,7 @@ export default function ProductsTable() {
               className="w-16 h-16 object-cover rounded-md border border-gray-200"
             />
           ),
-          className: "w-24 text-center",
+          className: "w-24",
         },
         {
           title: "برند",
@@ -56,7 +55,7 @@ export default function ProductsTable() {
           title: "توضیحات",
           accessor: "description",
           render: (product) => (
-            <div className="text-sm text-gray-600 truncate max-w-xs">
+            <div className="text-sm text-gray-600 truncate">
               {product.description}
             </div>
           ),
@@ -65,7 +64,7 @@ export default function ProductsTable() {
           title: "عملیات",
           render: (product) => (
             <Link
-              href={`/shop/admin/phones/edit/${product.id}`} // مسیر [slug]
+              href={`/shop/admin/phones/edit/${product.id}`}
               className="px-3 py-1 rounded-lg bg-blue-600 text-white hover:bg-blue-700 text-sm"
             >
               ویرایش
