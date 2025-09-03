@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
-import Button from "@/lib/components/base/Button";
-import Input from "@/lib/components/base/Input";
-import { RightArrow, Search } from "@/assets/common/icons";
-import Link from "next/link";
+import { RightArrow } from "@/assets/common/icons";
 import { getAllPhones } from "@/services/single/singleService";
 import { IProducts } from "@/interface/components/shop.interface";
 import { addToFavorites, checkFavorite, removeFavorite, getFavorites } from '@/services/favorites/favoritesService';
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { FaHeart } from 'react-icons/fa';
 import { IPhone } from '@/interface/components/shop.interface';
 import { FullScreenSpinner } from "@/assets/common/icons";
 import Carousel from "@/lib/components/base/Carousel";
@@ -97,16 +93,13 @@ export const categories = [
   },
 ];
 
-
 export default function PhonesPage() {
   const router = useRouter();
   const [cookies] = useCookies(["accessToken"]);
   const [products, setProducts] = useState<IProducts[]>([]);
-  const [search, setSearch] = useState('');
   const [favorites, setFavorites] = useState<IPhone[]>([]);
   const [loading, setLoading] = useState(true);
   const [likeLoading, setLikeLoading] = useState<{ [key: string]: boolean }>({});
-  const [imageLoaded, setImageLoaded] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     getAllPhones()
@@ -119,10 +112,6 @@ export default function PhonesPage() {
       })
       .finally(() => setLoading(false));
   }, []);
-
-  const filteredProducts = products.filter(product =>
-    product.model.toLowerCase().includes(search.toLowerCase())
-  );
 
   const handleToggleFavorite = async (phoneId: string) => {
     const token = cookies.accessToken;
@@ -153,7 +142,6 @@ export default function PhonesPage() {
       setLikeLoading((prev) => ({ ...prev, [phoneId]: false }));
     }
   };
-
 
   useEffect(() => {
     fetchFavorites();
@@ -205,6 +193,7 @@ export default function PhonesPage() {
                   <span className="rotate-180"><RightArrow /></span>
                 </div>
               </div>
+              <div className="border-t border-gray-200"></div>
               <SwiperWrapper pagination={{ clickable: true }} autoplay={{ delay: 5000 }}>
                 {products.map((product) => (
                   <SwiperSlide key={product.id} className="py-10">
@@ -224,7 +213,6 @@ export default function PhonesPage() {
                   </SwiperSlide>
                 ))}
               </SwiperWrapper>
-
             </div>
           </div>
         </div>
