@@ -42,6 +42,7 @@ export default function PhoneDetails() {
       .then((res) => {
         const data = Array.isArray(res.data) ? res.data : [];
         setProducts(data);
+        console.log(products)
       })
       .catch(err => {
         console.error(err);
