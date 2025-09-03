@@ -44,11 +44,11 @@ export default function Dropdown({ label, items }: DropdownProps) {
                 onClick={() => setOpen(!open)}
                 onMouseEnter={() => setIsHover(true)}
                 onMouseLeave={() => setIsHover(false)}
-                className="flex items-center justify-center gap-1 bg-[#f0f5f7] hover:text-white font-light text-sm lg:text-base px-3 py-2 rounded-full shadow hover:bg-[#008ECC] transition w-[100%] sm:w-[140px]" />
+                className="flex items-center justify-center gap-1 bg-[#f0f5f7] hover:text-white font-light text-xs lg:text-base px-2 sm:px-3 py-2 rounded-full shadow hover:bg-[#008ECC] transition w-[100%] sm:w-[140px]" />
 
             {/* لیست آیتم‌ها */}
             {open && (
-                <ul className="absolute mt-2 min-w-30 sm:min-w-44 md:min-w-44 text-sm lg:text-base bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                <ul className="absolute mt-2 min-w-28 sm:min-w-44 md:min-w-44 text-sm lg:text-base bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                     {items.map((item) => (
                         <li key={item.href}>
                             <Link

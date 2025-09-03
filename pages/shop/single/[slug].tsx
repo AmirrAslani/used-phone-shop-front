@@ -6,7 +6,6 @@ import { IPhone } from "@/interface/components/shop.interface";
 import { addToCart } from "@/services/single/singleService";
 import { getCart } from "@/services/cart/cartService";
 import { DottedSpinner, WhiteBag, Dots } from "@/assets/common/icons";
-import { ProductCarousel } from "@/lib/components/shop/productCarousel/ProductCarousel";
 import { IProducts } from "@/interface/components/shop.interface";
 import { getAllPhones } from "@/services/single/singleService";
 import { useCookies } from "react-cookie";
@@ -169,12 +168,12 @@ export default function PhoneDetails() {
             </div>
           </div>
         </div>
-        <div className="mt-6 md:mt-12">
+        {/* <div className="mt-6 md:mt-12">
           <h2 className="text-lg md:text-xl font-semibold mb-3">محصولات پیشنهادی</h2>
           <div className="bg-gray-100 p-4 rounded-xl">
             <ProductCarousel products={products} />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

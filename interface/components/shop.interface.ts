@@ -26,7 +26,6 @@
     model: string;
     price: number;
     image: string;
-    description: string;
   }
 
   export interface IOrder {
