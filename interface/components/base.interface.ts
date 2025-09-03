@@ -33,6 +33,8 @@ export interface IInputProps {
 
 export interface IButtonProps {
     onClick?: () => void;
+    onMouseEnter?: () => void;
+    onMouseLeave?: () => void;
     disabled?: boolean;
     icon?: React.ReactNode;
     text?: string | number;

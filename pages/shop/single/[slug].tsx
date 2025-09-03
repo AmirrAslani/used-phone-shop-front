@@ -101,7 +101,7 @@ export default function PhoneDetails() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-5 md:py-12 px-2 md:px-4">
+    <div className="min-h-screen py-5 md:py-12 px-2 md:px-4">
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-xl md:rounded-2xl shadow-xl overflow-hidden animate__animated animate__fadeIn">
           <div className="grid grid-cols-1 md:grid-cols-2">

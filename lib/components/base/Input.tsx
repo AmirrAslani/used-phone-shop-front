@@ -15,19 +15,21 @@ const Input = ({
   return (
     <div className={`relative flex items-center ${className}`}>
       {icon && (
-        <div className="absolute right-2 top-10 text-gray-400">
+        <div className="absolute right-[8px] top-[11px]">
           {icon}
         </div>
       )}
       <div className='w-full'>
-        <label className="block text-gray-600 font-medium mb-1">{label}</label>
+        {label &&
+          <label className="block font-medium mb-1">{label}</label>
+        }
         <input
           type={type}
           name={name}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className={`w-full py-2 ${icon ? 'px-8' : 'px-2'} border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${inputClassName}`}
+          className={`w-full py-2 ${icon ? 'px-8' : 'px-2'} bg-[#f0f5f7] font-light text-sm md:text-base placeholder:text-gray-600 placeholder:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-[#008ECC] focus:border-transparent ${inputClassName}`}
         />
       </div>
     </div>

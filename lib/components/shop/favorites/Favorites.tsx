@@ -41,7 +41,7 @@ export default function Favorites() {
     }
 
     return (
-        <div className='min-h-screen bg-gradient-to-br from-blue-50 to-blue-100'>
+        <div className='min-h-screen'>
             {Array.isArray(favorites) && favorites.length > 0 ? (
                 <div className="p-4 max-w-7xl m-auto">
                     {favorites.length === 0 ? (

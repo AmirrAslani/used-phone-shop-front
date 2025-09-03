@@ -3,6 +3,8 @@ import { IButtonProps } from '@/interface/components/base.interface';
 
 const Button = ({
   onClick,
+  onMouseEnter,
+  onMouseLeave,
   disabled = false,
   icon,
   text,
@@ -16,6 +18,8 @@ const Button = ({
       className={`${className} cursor-pointer`}
       disabled={disabled}
       onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       {shouldCenterIcon ? (
         <span className="flex items-center justify-center w-full h-full">
@@ -23,8 +27,8 @@ const Button = ({
         </span>
       ) : (
         <>
-          {icon && <span>{icon}</span>}
           {text}
+          {icon && <span>{icon}</span>}
         </>
       )}
     </button>

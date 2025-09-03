@@ -32,7 +32,7 @@ export default function Carousel({ images, autoPlay = true, interval = 7000 }: I
             >
                 {images.map((img, index) => (
                     <SwiperSlide key={index}>
-                        <div className="relative w-full h-64 sm:h-80 md:h-[550px]">
+                        <div className="relative w-full h-55 sm:h-70 md:h-[370px] lg:h-[430px]">
                             <img
                                 src={img.src}
                                 alt={img.alt}

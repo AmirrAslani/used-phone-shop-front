@@ -38,7 +38,7 @@ export default function Orders() {
     };
 
     if (loading) {
-        return <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-10">
+        return <div className="min-h-screen py-10">
             <div className="flex justify-center items-center h-40">
                 <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
             </div>

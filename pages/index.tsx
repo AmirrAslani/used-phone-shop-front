@@ -14,6 +14,7 @@ import { FullScreenSpinner } from "@/assets/common/icons";
 import Carousel from "@/lib/components/base/Carousel";
 import { ProductCarousel } from "@/lib/components/shop/productCarousel/ProductCarousel";
 import { useCookies } from "react-cookie";
+import Dropdown from "@/lib/components/base/Dropdown";
 
 const banners = [
   {
@@ -41,6 +42,59 @@ const banners = [
     ctaLink: "",
   },
 ];
+
+export const categories = [
+  {
+    label: "لوازم خانگی",
+    items: [
+      { label: "مبلمان", href: "/category/home-kitchen/furniture" },
+      { label: "لوازم آشپزخانه", href: "/category/home-kitchen/kitchen" },
+      { label: "دکوراسیون", href: "/category/home-kitchen/decor" },
+    ],
+  },
+  {
+    label: "مواد غذایی",
+    items: [
+      { label: "میوه‌ها", href: "/category/groceries/fruits" },
+      { label: "سبزیجات", href: "/category/groceries/vegetables" },
+      { label: "تنقلات", href: "/category/groceries/snacks" },
+      { label: "نوشیدنی‌ها", href: "/category/groceries/drinks" },
+    ],
+  },
+  {
+    label: "الکترونیک",
+    items: [
+      { label: "موبایل", href: "/category/electronics/mobiles" },
+      { label: "لپ‌تاپ", href: "/category/electronics/laptops" },
+      { label: "تلویزیون", href: "/category/electronics/tvs" },
+    ],
+  },
+  {
+    label: "مد و پوشاک",
+    items: [
+      { label: "مردانه", href: "/category/fashion/men" },
+      { label: "زنانه", href: "/category/fashion/women" },
+      { label: "بچگانه", href: "/category/fashion/kids" },
+    ],
+  },
+  {
+    label: "بهبود خانه",
+    items: [
+      { label: "ابزارآلات", href: "/category/home-improvement/tools" },
+      { label: "روشنایی", href: "/category/home-improvement/lighting" },
+      { label: "ایمنی", href: "/category/home-improvement/safety" },
+    ],
+  },
+  {
+    label: "لوازم ورزشی",
+    items: [
+      { label: "ورزشی", href: "/category/sports-toys/sports" },
+      { label: "اسباب‌بازی", href: "/category/sports-toys/toys" },
+      { label: "چمدان", href: "/category/sports-toys/luggage" },
+    ],
+  },
+];
+
 
 export default function PhonesPage() {
   const router = useRouter();
@@ -119,125 +173,137 @@ export default function PhonesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-10 px-2 md:px-4">
-
-      <div className="max-w-7xl mx-auto space-y-10">
-        <div>
-          <Carousel images={banners} autoPlay={true} interval={7000} />
-        </div>
-        <div>
-          <div className="mb-2">
-            <Input
-              name="Search"
-              label="جستجو"
-              value={search}
-              placeholder="نام کالا، مدل..."
-              icon={<Search />}
-              onChange={(e) => setSearch(e.target.value)}
-              inputClassName="bg-gray-50"
-            />
-          </div>
-
-          <div
-            className={`me-1 px-2 py-4
-    ${products.length >= 5 ? "overflow-y-scroll h-[600px] md:h-[950px]" : "overflow-y-auto md:overflow-visible"}`}
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-              {filteredProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate__animated animate__fadeInDown"
-                  onClick={() => router.push(`/shop/single/${product.id}`)}
-                >
-                  {/* تصویر */}
-                  <div className="overflow-hidden relative w-full h-72 bg-gray-50">
-                    {!imageLoaded[product.id] && (
-                      <div className="absolute inset-0 animate-pulse bg-gray-300 rounded-md"></div>
-                    )}
-                    <img
-                      src={product.image}
-                      alt={product.model}
-                      className={`w-full h-full transition-transform duration-300 hover:scale-105 ${imageLoaded[product.id] ? "opacity-100" : "opacity-0"
-                        }`}
-                      onLoad={() =>
-                        setImageLoaded((prev) => ({ ...prev, [product.id]: true }))
-                      }
-                    />
-                  </div>
-
-                  {/* محتوا */}
-                  <div className="p-3 sm:p-4 md:p-5 flex flex-col justify-between">
-                    <div>
-                      <div className="flex justify-between items-center">
-                        <h2 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 tracking-tight">
-                          {product.brand}
-                        </h2>
-
-                        <div
-                          className={`text-lg sm:text-xl cursor-pointer ${likeLoading[product.id]
-                            ? "opacity-80 pointer-events-none"
-                            : "text-red-600"
-                            }`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (!likeLoading[product.id]) handleToggleFavorite(product.id);
-                          }}
-                          title="افزودن به علاقه‌مندی"
-                        >
-                          {likeLoading[product.id] ? (
-                            <div className="w-4.5 h-4.5 border-2 border-red-600 border-t-transparent rounded-full animate-spin mx-auto" />
-                          ) : (
-                            <FaHeart
-                              color={
-                                favorites.some((fav) => fav.id === product.id)
-                                  ? "red"
-                                  : "lightgray"
-                              }
-                            />
-                          )}
-                        </div>
-                      </div>
-
-                      <p className="text-xs sm:text-sm md:text-base text-gray-600 mt-1 line-clamp-2">
-                        {product.model}
-                      </p>
-
-                      <div className="flex items-center mt-3 sm:mt-4 space-x-2">
-                        <span className="text-xs sm:text-sm md:text-base text-gray-600">
-                          قیمت:
-                        </span>
-                        <p className="text-lg sm:text-xl md:text-2xl text-blue-500">
-                          {product.price.toLocaleString("fa-IR")} تومان
-                        </p>
-                      </div>
-                    </div>
-
-                    <Link href={`/shop/single/${product.id}`}>
-                      <Button
-                        text="مشاهده و خرید"
-                        className="mt-4 sm:mt-5 w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white py-2 sm:py-2.5 md:py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 text-sm sm:text-base md:text-lg"
-                      />
-                    </Link>
-                  </div>
+    <>
+      <div className="min-h-screen">
+        <div className="max-w-7xl mx-auto space-y-10">
+          <div className="border-y border-gray-200 p-3 md:p-6">
+            <div className="grid grid-cols-12 items-center max-w-4xl gap-2 m-auto">
+              {categories.map((cat) => (
+                <div key={cat.label} className="col-span-4 md:col-span-4 lg:col-span-2 flex justify-center">
+                  <Dropdown
+                    label={cat.label}
+                    items={cat.items}
+                  />
                 </div>
               ))}
             </div>
           </div>
+          <div className="px-2 md:px-4">
+            <div>
+              <Carousel images={banners} autoPlay={true} interval={7000} />
+            </div>
+            <div>
+              <div className="my-5">
+                <Input
+                  name="Search"
+                  value={search}
+                  placeholder="نام کالا، مدل..."
+                  icon={<Search />}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
 
-          <div>
-            {filteredProducts.length === 0 && (
-              <p className="text-center text-gray-500 mt-5">هیچ کالایی یافت نشد</p>
-            )}
+              <div
+                className={`me-1 px-2 py-4
+                ${products.length >= 5 ? "overflow-y-scroll h-[600px] md:h-[950px]" : "overflow-y-auto md:overflow-visible"}`}
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+                  {filteredProducts.map((product) => (
+                    <div
+                      key={product.id}
+                      className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate__animated animate__fadeInDown"
+                      onClick={() => router.push(`/shop/single/${product.id}`)}
+                    >
+                      {/* تصویر */}
+                      <div className="overflow-hidden relative w-full h-72 bg-gray-50">
+                        {!imageLoaded[product.id] && (
+                          <div className="absolute inset-0 animate-pulse bg-gray-300 rounded-md"></div>
+                        )}
+                        <img
+                          src={product.image}
+                          alt={product.model}
+                          className={`w-full h-full transition-transform duration-300 hover:scale-105 ${imageLoaded[product.id] ? "opacity-100" : "opacity-0"
+                            }`}
+                          onLoad={() =>
+                            setImageLoaded((prev) => ({ ...prev, [product.id]: true }))
+                          }
+                        />
+                      </div>
+
+                      {/* محتوا */}
+                      <div className="p-3 sm:p-4 md:p-5 flex flex-col justify-between">
+                        <div>
+                          <div className="flex justify-between items-center">
+                            <h2 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 tracking-tight">
+                              {product.brand}
+                            </h2>
+
+                            <div
+                              className={`text-lg sm:text-xl cursor-pointer ${likeLoading[product.id]
+                                ? "opacity-80 pointer-events-none"
+                                : "text-red-600"
+                                }`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (!likeLoading[product.id]) handleToggleFavorite(product.id);
+                              }}
+                              title="افزودن به علاقه‌مندی"
+                            >
+                              {likeLoading[product.id] ? (
+                                <div className="w-4.5 h-4.5 border-2 border-red-600 border-t-transparent rounded-full animate-spin mx-auto" />
+                              ) : (
+                                <FaHeart
+                                  color={
+                                    favorites.some((fav) => fav.id === product.id)
+                                      ? "red"
+                                      : "lightgray"
+                                  }
+                                />
+                              )}
+                            </div>
+                          </div>
+
+                          <p className="text-xs sm:text-sm md:text-base text-gray-600 mt-1 line-clamp-2">
+                            {product.model}
+                          </p>
+
+                          <div className="flex items-center mt-3 sm:mt-4 space-x-2">
+                            <span className="text-xs sm:text-sm md:text-base text-gray-600">
+                              قیمت:
+                            </span>
+                            <p className="text-lg sm:text-xl md:text-2xl text-blue-500">
+                              {product.price.toLocaleString("fa-IR")} تومان
+                            </p>
+                          </div>
+                        </div>
+
+                        <Link href={`/shop/single/${product.id}`}>
+                          <Button
+                            text="مشاهده و خرید"
+                            className="mt-4 sm:mt-5 w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white py-2 sm:py-2.5 md:py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 text-sm sm:text-base md:text-lg"
+                          />
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                {filteredProducts.length === 0 && (
+                  <p className="text-center text-gray-500 mt-5">هیچ کالایی یافت نشد</p>
+                )}
+              </div>
+            </div>
+            <div className="mt-12">
+              <h2 className="text-lg md:text-2xl font-semibold mb-3">محصولات پیشنهادی</h2>
+              <div className="bg-gray-200 p-4 rounded-xl">
+                <ProductCarousel products={products} />
+              </div>
+            </div>
           </div>
         </div>
-        <div className="mt-12">
-          <h2 className="text-lg md:text-2xl font-semibold mb-3">محصولات پیشنهادی</h2>
-          <div className="bg-gray-200 p-4 rounded-xl">
-            <ProductCarousel products={products} />
-          </div>
-        </div>
-
       </div>
-    </div>
+    </>
   );
 }
