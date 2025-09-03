@@ -5,6 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
+import Card from "../../base/Card";
 
 type Product = {
   id: string;
@@ -12,6 +13,7 @@ type Product = {
   model: string;
   price: number;
   image: string;
+  description: string
 };
 
 type ProductCarouselProps = {
@@ -36,34 +38,17 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
       >
         {products.map((product) => (
           <SwiperSlide key={product.id} className="px-2 py-4">
-            <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
-              {/* تصویر */}
-              <div className="relative w-full h-40 flex items-center justify-center bg-gray-50">
-                <img
-                  src={product.image}
-                  alt={product.model}
-                  className="object-contain h-full w-auto transition-transform duration-300 hover:scale-105"
-                />
-              </div>
-
-              {/* متن */}
-              <div className="p-3 flex flex-col gap-2">
-                <span className="text-sm font-semibold text-gray-900 line-clamp-1">
-                  {product.brand}
-                </span>
-                <span className="text-xs text-gray-600 line-clamp-2">
-                  {product.model}
-                </span>
-                <span className="text-sm font-bold text-blue-600 mt-1">
-                  {product.price.toLocaleString("fa-IR")} تومان
-                </span>
-              </div>
-            </div>
+            <Card
+              title={product.description}
+              image={product.image}
+              price={product.price}
+              oldPrice={8999999}
+              discount={35}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
 
-      {/* استایل برای pagination */}
       <style>
         {`
           .product-carousel .swiper-pagination {
