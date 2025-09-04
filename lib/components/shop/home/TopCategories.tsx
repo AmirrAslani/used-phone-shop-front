@@ -58,7 +58,7 @@ export default function TopCategories() {
                     {topCategories.map((cat, index) => (
                         <SwiperSlide className="py-10" key={index}>
                             <div className="flex flex-col items-center justify-center text-center hover:scale-110 transition">
-                                <div className="w-43 h-43 sm:w-35 sm:h-35 rounded-full bg-gray-100 hover:border hover:border-[#008ECC]  cursor-pointer flex items-center justify-center">
+                                <div className="w-35 h-35 rounded-full bg-gray-100 hover:border hover:border-[#008ECC]  cursor-pointer flex items-center justify-center">
                                     <img
                                         src={cat.src}
                                         alt="image"
