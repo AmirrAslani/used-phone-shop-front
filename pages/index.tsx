@@ -14,6 +14,7 @@ import { useCookies } from "react-cookie";
 import Dropdown from "@/lib/components/base/Dropdown";
 import Card from "@/lib/components/base/Card";
 import TopCategories from "@/lib/components/shop/home/TopCategories";
+import TopBrands from "@/lib/components/shop/home/TopBrands";
 
 const banners = [
   {
@@ -218,6 +219,9 @@ export default function HomePage() {
 
             <div className="mt-12">
               <TopCategories/>
+            </div>
+            <div className="mt-12">
+                <TopBrands/>
             </div>
           </div>
         </div>
