@@ -33,7 +33,7 @@ export default function Card({
   return (
     <div onClick={onClick} className="relative bg-white rounded-xl border border-gray-200 hover:border-[#008ECC] hover:shadow-lg hover:scale-108 transition shadow-sm overflow-hidden m-auto sm:w-full cursor-pointer">
       {/* لیبل تخفیف */}
-      <div className="flex flex-col text-center absolute top-0 right-0 bg-[#008ECC] text-white text-sm px-3 py-1 rounded-bl-xl">
+      <div className="flex flex-col text-center absolute top-0 right-0 bg-primary-500 text-white text-sm px-3 py-1 rounded-bl-xl">
         <span>{discount}% </span>
         <span>OFF</span>
       </div>

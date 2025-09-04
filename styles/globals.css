@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #008ECC;
+  --color-primary-50: #E6F7FF;
+  --color-primary-100: #CCEFFF;
+  --color-primary-200: #99DFFF;
+  --color-primary-300: #66CFFF;
+  --color-primary-400: #33BFFF;
+  --color-primary-500: #008ECC;
+  --color-primary-600: #0072A3;
+  --color-primary-700: #00597A;
+  --color-primary-800: #003F52;
+  --color-primary-900: #002529;
+}
+
 @font-face {
   font-family: 'Shabnam';
   src: url('./fonts/Shabnam-Medium-FD.woff2') format('woff2'),

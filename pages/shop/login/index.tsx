@@ -6,18 +6,18 @@ export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-500 via-blue-300 to-red-400 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-primary-500 via-blue-300 to-primary-700 flex items-center justify-center px-3">
       <div className="bg-white shadow-2xl rounded-2xl w-full max-w-md p-8">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6 cursor-pointer">
+        <h4 className="text-2xl font-semibold text-center mb-6 cursor-pointer">
           {isLogin ? "ورود به حساب" : "ثبت‌ نام"}
-        </h2>
+        </h4>
 
         {isLogin ? <LoginForm /> : <RegisterForm />}
 
         <div className="mt-6 text-center">
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="text-purple-600 hover:underline cursor-pointer"
+            className="text-primary-500 hover:text-primary-600 hover:underline transition cursor-pointer"
           >
             {isLogin
               ? "حساب ندارید؟ ثبت‌ نام کنید"

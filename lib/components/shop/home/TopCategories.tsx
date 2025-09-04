@@ -40,7 +40,7 @@ export default function TopCategories() {
             <div className="px-1 md:px-0">
                 <div className="flex justify-between items-center">
                     <span className="border-b border-b-[3px] border-[#008ECC] pb-3 text-sm md:text-lg lg:text-xl font-semibold">
-                        خرید از <span className="text-[#008ECC]">دسته بندی های برتر</span>
+                        خرید از <span className="text-primary-500">دسته بندی های برتر</span>
                     </span>
                     <div className="flex gap-1 items-center pb-3 cursor-pointer">
                         <span className="font-medium text-sm md:text-base">مشاهد همه</span>

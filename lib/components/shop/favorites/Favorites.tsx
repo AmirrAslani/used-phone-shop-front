@@ -3,8 +3,9 @@ import { getFavorites, removeFavorite } from '@/services/favorites/favoritesServ
 import { toast } from 'react-toastify';
 import { FaHeart } from 'react-icons/fa';
 import { IPhone } from '@/interface/components/shop.interface';
-import { Dots } from '@/assets/common/icons';
+import { BackArrow, Dots } from '@/assets/common/icons';
 import Button from '../../base/Button';
+import Link from 'next/link';
 
 export default function Favorites() {
     const [favorites, setFavorites] = useState<IPhone[]>([]);
@@ -44,6 +45,18 @@ export default function Favorites() {
         <div className='min-h-screen'>
             {Array.isArray(favorites) && favorites.length > 0 ? (
                 <div className="p-4 max-w-7xl m-auto">
+                     <div className="flex justify-between items-center">
+                    <span className="pb-2 text-sm md:text-lg lg:text-xl">
+                        علاقه مندی ها
+                    </span>
+                    <div className="pb-2 cursor-pointer hover:text-gray-500">
+                        <Link className="flex gap-1 items-center" href="/">
+                            <span className="font-medium text-sm md:text-base">بازگشت</span>
+                            <BackArrow />
+                        </Link>
+                    </div>
+                </div>
+                <div className="border-t border-gray-200 mb-8"></div>
                     {favorites.length === 0 ? (
                         <p className="text-gray-600 text-lg font-semibold text-center mt-5">هیچ محصولی در لیست علاقه‌مندی‌ها وجود ندارد.</p>
                     ) : (

@@ -159,7 +159,7 @@ export default function HomePage() {
   };
 
   if (loading) {
-    return <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-10">
+    return <div className="min-h-screen py-10">
       <FullScreenSpinner />
     </div>;
   }
@@ -188,7 +188,7 @@ export default function HomePage() {
             <div className="mt-20 px-1 md:px-0">
               <div className="flex justify-between items-center">
                 <span className="border-b border-b-[3px] border-[#008ECC] pb-3 text-sm md:text-lg lg:text-xl font-semibold">
-                  بهترین قیمت <span className="text-[#008ECC]"> موبایل</span> را از ما بخواهید
+                  بهترین <span className="text-primary-500"> قیمت موبایل</span> را از ما بخواهید
                 </span>
                 <div className="flex gap-1 items-center pb-3 cursor-pointer">
                   <span className="font-medium text-sm md:text-base">مشاهد همه</span>

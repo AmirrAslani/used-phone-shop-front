@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
+import { Spinner } from "@/assets/common/icons";
 
 interface LoginFormValues {
   email: string;
@@ -46,7 +47,7 @@ export default function LoginForm() {
           secure: process.env.NODE_ENV === "production",
         });
 
-        toast.success("خوش اومدین یاشاسین");
+        toast.success("ورود موفق!");
         router.push("/");
       }
     } catch (err: unknown) {
@@ -66,7 +67,7 @@ export default function LoginForm() {
               type="email"
               name="email"
               placeholder="ایمیل"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder:text-right text-left"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 placeholder:text-right text-left"
             />
             <ErrorMessage
               name="email"
@@ -79,7 +80,7 @@ export default function LoginForm() {
               type="password"
               name="password"
               placeholder="رمز عبور"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder:text-right text-left"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 placeholder:text-right text-left"
             />
             <ErrorMessage
               name="password"
@@ -90,9 +91,9 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 disabled:opacity-50 cursor-pointer"
+            className="w-full bg-primary-500 hover:bg-primary-600 text-white py-3 rounded-lg transition-all duration-300 disabled:opacity-50 cursor-pointer"
           >
-            {isSubmitting ? "در حال ورود..." : "ورود"}
+            {isSubmitting ? <Spinner customClassName="!size-6"/> : "ورود"}
           </button>
         </Form>
       )}

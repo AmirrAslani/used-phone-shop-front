@@ -7,6 +7,7 @@ import Button from "@/lib/components/base/Button";
 import { getProfile } from "@/services/auth/authService";
 import { useCookies } from "react-cookie";
 import Input from "@/lib/components/base/Input";
+import CartDropdown from "../components/CartDropdown";
 
 const Navbar = () => {
   const router = useRouter();
@@ -115,15 +116,19 @@ const Navbar = () => {
           className="md:hidden focus:outline-none cursor-pointer"
           aria-label="Open menu"
         >
-          {isMobileMenuOpen ? <HiX /> : <HiMenu />}
+          {isMobileMenuOpen ? <HiX color="#008ECC" /> : <HiMenu color="#008ECC" />}
         </button>
 
-
         <div className="flex items-center">
-          {/* Logo */}
 
-          <div className="md:hidden mb-1 ms-11">
+          <div className="mb-1 md:hidden">
             <LogoMobile />
+          </div>
+
+          <div className="md:block hidden">
+            {!token && (
+              <CartDropdown />
+            )}
           </div>
 
           {/* Desktop Navigation */}
@@ -326,7 +331,7 @@ const Navbar = () => {
               ) : (
                 <Link
                   href="/shop/login"
-                  className="flex items-center space-x-2 font-semibold py-2"
+                  className="flex items-center space-x-2 py-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <User />

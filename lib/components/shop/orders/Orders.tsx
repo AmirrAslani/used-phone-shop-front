@@ -3,6 +3,8 @@ import { getOrders } from '@/services/orders/ordersService';
 import { format } from 'date-fns-jalali';
 import { toast } from 'react-toastify';
 import { IOrder } from '@/interface/components/shop.interface';
+import Link from 'next/link';
+import { BackArrow } from '@/assets/common/icons';
 
 export default function Orders() {
     const [orders, setOrders] = useState<IOrder[]>([]);
@@ -46,9 +48,24 @@ export default function Orders() {
     }
 
     return (
-        <div className='min-h-screen bg-gradient-to-br from-blue-50 to-blue-100'>
+        <div className='min-h-screen'>
+            <div className="p-4 max-w-7xl m-auto">
+                <div className="flex justify-between items-center">
+                    <span className="pb-2 text-sm md:text-lg lg:text-xl">
+                        سفارش ها
+                    </span>
+                    <div className="pb-2 cursor-pointer hover:text-gray-500">
+                        <Link className="flex gap-1 items-center" href="/">
+                            <span className="font-medium text-sm md:text-base">بازگشت</span>
+                            <BackArrow />
+                        </Link>
+                    </div>
+                </div>
+                <div className="border-t border-gray-200"></div>
+            </div>
+            
             {Array.isArray(orders) && orders.length > 0 ? (
-                <div className="grid gap-6 p-4 pt-10 max-w-7xl m-auto">
+                <div className="grid gap-6 p-4 pt-8 max-w-7xl m-auto">
                     {orders.map(order => (
                         <div
                             key={order.id}

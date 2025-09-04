@@ -5,10 +5,11 @@ import { getPhoneById } from "@/services/single/singleService";
 import { IPhone } from "@/interface/components/shop.interface";
 import { addToCart } from "@/services/single/singleService";
 import { getCart } from "@/services/cart/cartService";
-import { DottedSpinner, WhiteBag, Dots } from "@/assets/common/icons";
+import { DottedSpinner, WhiteBag, Dots, LeftArrow, BackArrow } from "@/assets/common/icons";
 import { IProducts } from "@/interface/components/shop.interface";
 import { getAllPhones } from "@/services/single/singleService";
 import { useCookies } from "react-cookie";
+import Link from "next/link";
 
 export interface ICartItem {
   id: string;
@@ -115,11 +116,14 @@ export default function PhoneDetails() {
             </div>
 
             <div className="p-4 md:p-8">
-              <h4 className="text-xl md:text-3xl font-extrabold text-gray-900">{phone?.brand.toLocaleUpperCase()}</h4>
+              <div className="flex justify-between items-center">
+                <h4 className="text-xl md:text-3xl font-bold">{phone?.brand.toLocaleUpperCase()}</h4>
+                <Link href="/"><BackArrow/></Link>
+              </div>
               <p className="mt-1 md:text-lg text-gray-700 font-medium">{phone?.model}</p>
               <div className="flex items-center mt-2 md:mt-4 font-semibold space-x-2">
-                <span className="md:text-lg text-gray-800">قیمت:</span>
-                <p className="text-lg md:text-2xl text-blue-500">
+                <span className="md:text-lg">قیمت:</span>
+                <p className="text-lg md:text-2xl text-primary-500">
                   {phone?.price.toLocaleString("fa-IR")} تومان
                 </p>
               </div>
@@ -127,11 +131,11 @@ export default function PhoneDetails() {
 
               <div className="mt-1 md:mt-4 text-sm md:text-normal text-gray-500">
                 موجودی:{" "}
-                <span className="text-gray-800 font-semibold">{phone?.quantity} عدد</span>
+                <span className="text-gray-700 font-semibold">{phone?.quantity} عدد</span>
               </div>
 
               <div className="mt-3 md:mt-8 bg-gray-50 border border-gray-200 rounded-xl p-3 md:p-6">
-                <h2 className="text-lg font-bold text-gray-900 mb-2 md:mb-4">مشخصات فنی</h2>
+                <h2 className="text-lg font-bold mb-2 md:mb-4">مشخصات فنی</h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-4 text-gray-700 text-sm md:text-normal">
                   <li><span className="font-medium">پردازنده:</span> {phone?.specs.cpu}</li>
                   <li><span className="font-medium">رم:</span> {phone?.specs.ram.toLocaleUpperCase()}</li>
@@ -146,14 +150,14 @@ export default function PhoneDetails() {
               {isInCart ? (
                 <button
                   onClick={() => router.push('/shop/user/cart')}
-                  className="mt-4 md:mt-10 flex justify-center items-center w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-700 hover:to-blue-900 text-white py-3 rounded-xl shadow-lg transition-all duration-300 text-lg font-medium cursor-pointer"
+                  className="mt-4 md:mt-10 flex justify-center items-center w-full bg-primary-500 hover:bg-primary-600 text-white py-3 rounded-xl shadow-lg transition-all duration-300 text-lg font-medium cursor-pointer"
                 >
                   <span className="me-1">مشاهده سبد خرید </span><WhiteBag />
                 </button>
               ) : (
                 <button disabled={submitLoading}
                   onClick={handleAddToCart}
-                  className="mt-4 md:mt-10 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-700 hover:to-blue-900 text-white py-2 md:py-3 rounded-lg md:rounded-xl shadow-lg transition-all duration-300 md:text-lg font-medium cursor-pointer"
+                  className="mt-4 md:mt-10 w-full bg-primary-500 hover:bg-primary-600 text-white py-2 md:py-3 rounded-lg md:rounded-xl shadow-lg transition-all duration-300 md:text-lg font-medium cursor-pointer"
                 >
                   {submitLoading ? (
                     <>

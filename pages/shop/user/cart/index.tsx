@@ -6,8 +6,9 @@ import { removeOneItem } from "@/services/cart/cartService";
 import { toast } from "react-toastify";
 import { updateCart } from "@/services/cart/cartService";
 import { ICart, ICartItem } from "@/interface/components/shop.interface";
-import { Dots } from "@/assets/common/icons";
+import { BackArrow, Dots } from "@/assets/common/icons";
 import { useCookies } from "react-cookie";
+import Link from "next/link";
 
 export default function CartPage() {
     const [cart, setCart] = useState<ICart>({ items: [], total: 0 });
@@ -20,12 +21,12 @@ export default function CartPage() {
 
     useEffect(() => {
         if (typeof window === "undefined") return;
-    
+
         const token = cookies.accessToken;
         if (!token) {
             return;
         }
-    
+
         getCart()
             .then(res => {
                 setCart({
@@ -36,7 +37,7 @@ export default function CartPage() {
             .catch(err => console.error(err))
             .finally(() => setLoading(false));
     }, [router]);
-    
+
 
     const updateQuantity = async (itemId: string, quantity: number) => {
         setUpdateLoading(true)
@@ -140,11 +141,23 @@ export default function CartPage() {
     return (
         <div className="min-h-screen">
             <div className="max-w-4xl mx-auto p-4">
+                <div className="flex justify-between items-center">
+                    <span className="pb-2 text-sm md:text-lg lg:text-xl">
+                        سبد خرید
+                    </span>
+                    <div className="pb-2 cursor-pointer hover:text-gray-500">
+                        <Link className="flex gap-1 items-center" href="/">
+                            <span className="font-medium text-sm md:text-base">بازگشت</span>
+                            <BackArrow />
+                        </Link>
+                    </div>
+                </div>
+                <div className="border-t border-gray-200 mb-8"></div>
                 {cart.items && cart.items.length > 0 ? (
-                    <div className="space-y-4">
+                    <div className={`space-y-4 ${cart.items.length > 3 ? 'h-[480px] overflow-y-auto pe-1' : ''}`}>
 
                         {cart.items.map((item) => (
-                            <div key={item.id} className="md:flex items-center text-center md:text-right bg-white shadow p-4 rounded-lg animate__animated animate__fadeInRight">
+                            <div key={item.id} className="md:flex items-center text-center md:text-right bg-white shadow-lg border border-gray-200 p-4 rounded-lg animate__animated animate__fadeInRight">
                                 <img
                                     src={item.phone.image}
                                     alt={item.phone.model}
@@ -162,7 +175,7 @@ export default function CartPage() {
                                     <div className="flex items-center border rounded">
                                         <button disabled={updateLoading}
                                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                            className="px-2 py-1 cursor-pointer hover:scale-140"
+                                            className="px-2 py-1 text-primary-500 cursor-pointer hover:scale-140"
                                         >
                                             -
                                         </button>
@@ -170,7 +183,7 @@ export default function CartPage() {
                                         <button
                                             onClick={() => handleUpdate(item)}
                                             disabled={item.quantity >= item.phone.quantity || updateLoading}
-                                            className="px-2 py-1 cursor-pointer hover:scale-140"
+                                            className="px-2 py-1 text-primary-500 cursor-pointer hover:scale-140"
                                         >
                                             +
                                         </button>
@@ -197,14 +210,14 @@ export default function CartPage() {
                             <p className="md:text-xl font-bold">
                                 جمع کل: {cart?.total.toLocaleString()} تومان
                             </p>
-                            
-                            <button onClick={handleGoToCheckout} className="bg-blue-500 text-white text-sm md:text-normal px-3 md:px-6 py-2 rounded-md md:rounded-lg hover:bg-blue-600 cursor-pointer">
+
+                            <button onClick={handleGoToCheckout} className="bg-primary-500 text-white text-sm md:text-normal px-3 md:px-6 py-2 rounded-md md:rounded-lg hover:bg-primary-600 cursor-pointer">
                                 ادامه خرید
                             </button>
                         </div>
 
                         <div className="mt-2">
-                            <button disabled={clearLoading} onClick={handleClearCart} className="bg-red-700 text-white text-sm md:text-normal px-3 md:px-6 py-2 rounded-md md:rounded-lg hover:bg-red-800 cursor-pointer">
+                            <button disabled={clearLoading} onClick={handleClearCart} className="bg-red-500 text-white text-sm md:text-normal px-3 md:px-4 py-2 rounded-md md:rounded-lg hover:bg-red-600 cursor-pointer">
                                 خالی کردن سبد
                             </button>
                         </div>

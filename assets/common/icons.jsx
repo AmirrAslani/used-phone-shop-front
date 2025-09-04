@@ -164,7 +164,7 @@ export const AvatarPlaceholder = () => (
 
 export const FullScreenSpinner = () => (
   <div className="fixed inset-0 flex justify-center items-center z-50">
-    <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+    <div className="w-12 h-12 border-4 border-gray-300 border-t-primary-500 rounded-full animate-spin"></div>
   </div>
 
 )
@@ -182,11 +182,11 @@ export const DottedSpinner = () => (
 )
 
 export const Dots = () => (
-  <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
+  <div className="min-h-screen">
     <div className="flex justify-center items-center h-40 space-x-2">
-      <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce"></div>
-      <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce delay-150"></div>
-      <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce delay-300"></div>
+      <div className="w-3 h-3 bg-primary-500 rounded-full animate-bounce"></div>
+      <div className="w-3 h-3 bg-primary-500 rounded-full animate-bounce delay-150"></div>
+      <div className="w-3 h-3 bg-primary-500 rounded-full animate-bounce delay-300"></div>
     </div>
   </div>
 )
@@ -223,5 +223,11 @@ export const Cart = () => (
 export const RightArrow = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M6.375 3.75L11.625 9L6.375 14.25" stroke="#008ECC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+)
+
+export const BackArrow = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.0015 20.67C14.8115 20.67 14.6215 20.6 14.4715 20.45L7.95149 13.93C6.89149 12.87 6.89149 11.13 7.95149 10.07L14.4715 3.55002C14.7615 3.26002 15.2415 3.26002 15.5315 3.55002C15.8215 3.84002 15.8215 4.32002 15.5315 4.61002L9.01149 11.13C8.53149 11.61 8.53149 12.39 9.01149 12.87L15.5315 19.39C15.8215 19.68 15.8215 20.16 15.5315 20.45C15.3815 20.59 15.1915 20.67 15.0015 20.67Z" fill="#292D32" />
   </svg>
 )
