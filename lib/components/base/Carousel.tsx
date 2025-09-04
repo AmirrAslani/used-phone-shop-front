@@ -46,7 +46,7 @@ export default function Carousel({ images, autoPlay = true, interval = 7000 }: I
                                     {img.ctaText && (
                                         <Link
                                             href={img.ctaLink || "/"}
-                                            className="mt-3 md:mt-4 text-sm md:text-lg bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-700 hover:to-blue-900 text-white px-4 md:px-6 py-2 rounded-full shadow-lg transition"
+                                            className="mt-3 md:mt-4 text-sm md:text-lg bg-gradient-to-r from-[#008ECC] to-blue-600 hover:from-blue-600 hover:to-[#008ECC] hover:scale-103 transition text-white px-4 md:px-6 py-2 rounded-full shadow-lg"
                                         >
                                             {img.ctaText}
                                         </Link>

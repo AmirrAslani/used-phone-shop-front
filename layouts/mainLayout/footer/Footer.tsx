@@ -5,7 +5,7 @@ import { FooterLogo } from '@/assets/common/icons';
 
 export default function Footer() {
     return (
-        <footer className="bg-gradient-to-r from-blue-200 via-blue-900 to-blue-300 text-white pt-12 border-t border-gray-300 pb-5 pt-8 mt-10">
+        <footer className="bg-[#008ECC] text-white pt-12 border-t border-gray-300 pb-5 pt-8 mt-10 max-w-7xl m-auto">
             <div className="container mx-auto px-4">
                 <div className="flex flex-col md:flex-row justify-between gap-8 mb-8">
 

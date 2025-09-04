@@ -48,7 +48,7 @@ export default function Dropdown({ label, items }: DropdownProps) {
 
             {/* لیست آیتم‌ها */}
             {open && (
-                <ul className="absolute mt-2 min-w-28 sm:min-w-44 md:min-w-44 text-sm lg:text-base bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                <ul className="absolute -right-3 sm:right-0 mt-2 min-w-28 md:min-w-44 text-sm lg:text-base bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                     {items.map((item) => (
                         <li key={item.href}>
                             <Link

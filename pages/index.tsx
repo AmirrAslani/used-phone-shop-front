@@ -8,11 +8,12 @@ import { useRouter } from "next/router";
 import { IPhone } from '@/interface/components/shop.interface';
 import { FullScreenSpinner } from "@/assets/common/icons";
 import Carousel from "@/lib/components/base/Carousel";
-import { SwiperWrapper } from "@/lib/components/shop/swiper/Swiper";
+import { SwiperWrapper } from "@/lib/components/base/Swiper";
 import { SwiperSlide } from "swiper/react";
 import { useCookies } from "react-cookie";
 import Dropdown from "@/lib/components/base/Dropdown";
 import Card from "@/lib/components/base/Card";
+import TopCategories from "@/lib/components/shop/home/TopCategories";
 
 const banners = [
   {
@@ -93,7 +94,7 @@ export const categories = [
   },
 ];
 
-export default function PhonesPage() {
+export default function HomePage() {
   const router = useRouter();
   const [cookies] = useCookies(["accessToken"]);
   const [products, setProducts] = useState<IProducts[]>([]);
@@ -182,13 +183,13 @@ export default function PhonesPage() {
             <div>
               <Carousel images={banners} autoPlay={true} interval={7000} />
             </div>
-            
-            <div className="mt-12 px-3 md:px-0">
+
+            <div className="mt-20 px-1 md:px-0">
               <div className="flex justify-between items-center">
-                <span className="border-b border-b-[3px] border-[#008ECC] pb-2 text-sm md:text-lg lg:text-xl font-bold">
-                  بهترین قیمت <span className="text-[#008ECC]"> گوشی هوشمند</span> را از ما بخواهید
+                <span className="border-b border-b-[3px] border-[#008ECC] pb-3 text-sm md:text-lg lg:text-xl font-semibold">
+                  بهترین قیمت <span className="text-[#008ECC]"> موبایل</span> را از ما بخواهید
                 </span>
-                <div className="flex gap-1 items-center pb-2 cursor-pointer">
+                <div className="flex gap-1 items-center pb-3 cursor-pointer">
                   <span className="font-medium text-sm md:text-base">مشاهد همه</span>
                   <span className="rotate-180"><RightArrow /></span>
                 </div>
@@ -213,6 +214,10 @@ export default function PhonesPage() {
                   </SwiperSlide>
                 ))}
               </SwiperWrapper>
+            </div>
+
+            <div className="mt-12">
+              <TopCategories/>
             </div>
           </div>
         </div>

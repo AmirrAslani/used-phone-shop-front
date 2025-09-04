@@ -31,7 +31,7 @@ export default function Card({
   const saveAmount = price - newPrice;
 
   return (
-    <div onClick={onClick} className="relative bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden m-auto w-100 sm:w-full cursor-pointer">
+    <div onClick={onClick} className="relative bg-white rounded-xl border border-gray-200 hover:border-[#008ECC] hover:shadow-lg hover:scale-108 transition shadow-sm overflow-hidden m-auto sm:w-full cursor-pointer">
       {/* لیبل تخفیف */}
       <div className="flex flex-col text-center absolute top-0 right-0 bg-[#008ECC] text-white text-sm px-3 py-1 rounded-bl-xl">
         <span>{discount}% </span>
