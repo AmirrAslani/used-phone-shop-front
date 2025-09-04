@@ -5,7 +5,7 @@ import { getPhoneById } from "@/services/single/singleService";
 import { IPhone } from "@/interface/components/shop.interface";
 import { addToCart } from "@/services/single/singleService";
 import { getCart } from "@/services/cart/cartService";
-import { DottedSpinner, WhiteBag, Dots, LeftArrow, BackArrow } from "@/assets/common/icons";
+import { DottedSpinner, WhiteBag, Dots, BackArrow } from "@/assets/common/icons";
 import { IProducts } from "@/interface/components/shop.interface";
 import { getAllPhones } from "@/services/single/singleService";
 import { useCookies } from "react-cookie";

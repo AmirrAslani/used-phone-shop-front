@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import { updateProfile } from '@/services/profile/profileService';
 import Image from 'next/image';
 import * as Yup from "yup";
-import { Sending, Camera, AvatarPlaceholder, Spinner } from '@/assets/common/icons';
+import { Camera, AvatarPlaceholder, Spinner } from '@/assets/common/icons';
 import { toast } from "react-toastify";
 
 interface ProfileFormValues {
