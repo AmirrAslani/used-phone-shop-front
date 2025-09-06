@@ -6,7 +6,7 @@ import { getPhoneById } from "@/services/single/singleService";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { IPhone } from "@/interface/components/shop.interface";
+import { IPhone } from "@/interface/shop.interface";
 import Image from "next/image";
 import { Spinner } from "@/assets/common/icons";
 

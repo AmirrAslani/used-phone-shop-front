@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getFavorites, removeFavorite } from '@/services/favorites/favoritesService';
 import { toast } from 'react-toastify';
 import { FaHeart } from 'react-icons/fa';
-import { IPhone } from '@/interface/components/shop.interface';
+import { IPhone } from '@/interface/shop.interface';
 import { BackArrow, Dots } from '@/assets/common/icons';
 import Button from '../../base/Button';
 import Link from 'next/link';

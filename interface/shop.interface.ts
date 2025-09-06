@@ -55,3 +55,20 @@
     items: ICartItem[];
     total: number;
   }
+
+  export interface ISingleCartItem {
+    id: string;
+    cartId: string;
+    phoneId: string;
+    quantity: number;
+    phone: IPhone;
+  }
+  
+  export interface ISingleCart {
+    id: string;
+    userId: string;
+    createdAt: string;
+    items: ISingleCartItem[];
+    total: number;
+  }
+  

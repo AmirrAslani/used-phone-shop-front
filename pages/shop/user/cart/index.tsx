@@ -5,7 +5,7 @@ import { clearCart, getCart } from "@/services/cart/cartService";
 import { removeOneItem } from "@/services/cart/cartService";
 import { toast } from "react-toastify";
 import { updateCart } from "@/services/cart/cartService";
-import { ICart, ICartItem } from "@/interface/components/shop.interface";
+import { ICart, ICartItem } from "@/interface/shop.interface";
 import { BackArrow, Dots } from "@/assets/common/icons";
 import { useCookies } from "react-cookie";
 import Link from "next/link";

@@ -1,49 +1,40 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { toast } from "react-toastify";
 import { getPhoneById } from "@/services/single/singleService";
-import { IPhone } from "@/interface/components/shop.interface";
+import { IPhone } from "@/interface/shop.interface";
 import { addToCart } from "@/services/single/singleService";
 import { getCart } from "@/services/cart/cartService";
 import { DottedSpinner, WhiteBag, Dots, BackArrow } from "@/assets/common/icons";
-import { IProducts } from "@/interface/components/shop.interface";
+import { IProducts } from "@/interface/shop.interface";
 import { getAllPhones } from "@/services/single/singleService";
 import { useCookies } from "react-cookie";
 import Link from "next/link";
+import { ISingleCart } from "@/interface/shop.interface";
 
-export interface ICartItem {
-  id: string;
-  cartId: string;
-  phoneId: string;
-  quantity: number;
-  phone: IPhone;
-}
-
-export interface ICart {
-  id: string;
-  userId: string;
-  createdAt: string;
-  items: ICartItem[];
-  total: number;
-}
 
 export default function PhoneDetails() {
   const router = useRouter();
   const { slug } = router.query;
   const [phone, setPhone] = useState<IPhone | null>(null);
-  const [cart, setCart] = useState<null | ICart>(null);
+  const [cart, setCart] = useState<null | ISingleCart>(null);
   const isInCart = cart?.items?.some((item) => item.phoneId === slug);
   const [loading, setLoading] = useState(true);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [products, setProducts] = useState<IProducts[]>([]);
   const [cookies] = useCookies(["accessToken"]);
-
+  const didFetch = useRef(false);
+  
   useEffect(() => {
+    if (didFetch.current) return;
+
+    didFetch.current = true;
+
     getAllPhones()
       .then((res) => {
         const data = Array.isArray(res.data) ? res.data : [];
         setProducts(data);
-        console.log(products)
+        console.log('prod', products)
       })
       .catch(err => {
         console.error(err);

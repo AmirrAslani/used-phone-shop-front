@@ -8,6 +8,7 @@ import { getProfile } from "@/services/auth/authService";
 import { useCookies } from "react-cookie";
 import Input from "@/lib/components/base/Input";
 import CartDropdown from "../components/CartDropdown";
+import LiveSearch from "../components/LiveSearch";
 
 const Navbar = () => {
   const router = useRouter();
@@ -155,14 +156,7 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:block">
-          <Input
-            name="Search"
-            value={search}
-            placeholder="نام کالا، مشخصات، مدل..."
-            icon={<Search />}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-[280px] sm:[w-350px] lg:w-[530px]"
-          />
+          <LiveSearch />
         </div>
 
         {/* Right - Profile and Mobile Menu Button */}
@@ -259,15 +253,12 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div ref={mobileMenuRef} className="md:hidden bg-white border-t border-gray-200 mt-2 py-4 px-4 absolute left-0 right-0 shadow-lg">
-          <div className="flex flex-col space-y-4">
-            <Input
-              name="Search"
-              value={search}
-              placeholder="نام کالا، مدل..."
-              icon={<Search />}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+        <div ref={mobileMenuRef} className="md:hidden bg-white border-t border-gray-200 mt-2 py-3 absolute left-0 right-0 shadow-lg">
+          <div className="px-1 mb-4">
+            <LiveSearch />
+          </div>
+
+          <div className="flex flex-col space-y-2 px-3">
 
             {token && (
               <>

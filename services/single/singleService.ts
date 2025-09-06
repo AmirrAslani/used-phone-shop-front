@@ -6,8 +6,12 @@ export const getPhoneById = async (id: string) => {
   return res;
 };
 
-export const getAllPhones = async () => {
-  const res = await http.get(`/phones`);
+// export const getAllPhones = async () => {
+//   const res = await http.get(`/phones`);
+//   return res;
+// };
+export const getAllPhones = async (q?: string) => {
+  const res = await http.get(`/phones${q ? `?q=${q}` : ""}`);
   return res;
 };
 

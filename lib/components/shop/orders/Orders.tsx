@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getOrders } from '@/services/orders/ordersService';
 import { format } from 'date-fns-jalali';
 import { toast } from 'react-toastify';
-import { IOrder } from '@/interface/components/shop.interface';
+import { IOrder } from '@/interface/shop.interface';
 import Link from 'next/link';
 import { BackArrow } from '@/assets/common/icons';
 

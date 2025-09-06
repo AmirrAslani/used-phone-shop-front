@@ -2,7 +2,7 @@ import DataTable from "@/lib/components/base/DataTable";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getAllPhones } from "@/services/single/singleService";
-import { IProducts } from "@/interface/components/shop.interface";
+import { IProducts } from "@/interface/shop.interface";
 
 const PAGE_SIZES = [10, 20, 30, 50];
 

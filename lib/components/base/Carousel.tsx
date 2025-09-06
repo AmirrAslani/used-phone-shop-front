@@ -4,7 +4,7 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { ICarouselProps } from "@/interface/components/base.interface";
+import { ICarouselProps } from "@/interface/base.interface";
 import Link from "next/link";
 
 export default function Carousel({ images, autoPlay = true, interval = 7000 }: ICarouselProps) {

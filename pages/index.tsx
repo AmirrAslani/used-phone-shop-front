@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { RightArrow } from "@/assets/common/icons";
 import { getAllPhones } from "@/services/single/singleService";
-import { IProducts } from "@/interface/components/shop.interface";
+import { IProducts } from "@/interface/shop.interface";
 import { addToFavorites, checkFavorite, removeFavorite, getFavorites } from '@/services/favorites/favoritesService';
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { IPhone } from '@/interface/components/shop.interface';
+import { IPhone } from '@/interface/shop.interface';
 import { FullScreenSpinner } from "@/assets/common/icons";
 import Carousel from "@/lib/components/base/Carousel";
 import { SwiperWrapper } from "@/lib/components/base/Swiper";

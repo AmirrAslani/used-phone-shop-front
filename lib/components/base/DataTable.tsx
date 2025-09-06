@@ -1,4 +1,4 @@
-import { ITableProps } from "@/interface/components/base.interface";
+import { ITableProps } from "@/interface/base.interface";
 import Button from "./Button";
 import { RightArrow, LeftArrow } from "@/assets/common/icons";
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IInputProps } from "@/interface/components/base.interface";
+import { IInputProps } from "@/interface/base.interface";
 
 const Input = ({
   type = 'text',
@@ -10,6 +10,8 @@ const Input = ({
   inputClassName = '',
   value,
   onChange,
+  onFocus,
+  onBlur,
   icon,
 }: IInputProps) => {
   return (
@@ -29,7 +31,9 @@ const Input = ({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className={`w-full py-2 ${icon ? 'px-8' : 'px-2'} bg-[#f0f5f7] font-light text-sm md:text-base placeholder:text-gray-600 placeholder:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-[#008ECC] focus:border-transparent ${inputClassName}`}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          className={`w-full py-2 ${icon ? 'px-8' : 'px-2'} bg-[#f0f5f7] font-light text-sm md:text-base placeholder:text-gray-600 placeholder:text-sm rounded-sm md:rounded-lg focus:outline-none focus:ring-1 focus:ring-[#008ECC] focus:border-transparent ${inputClassName}`}
         />
       </div>
     </div>
