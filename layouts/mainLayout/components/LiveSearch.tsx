@@ -3,8 +3,13 @@ import { getAllPhones } from "@/services/single/singleService";
 import { useRouter } from "next/router";
 import Input from "@/lib/components/base/Input";
 import { Search, Spinner } from "@/assets/common/icons";
+import { Dispatch, SetStateAction } from "react";
 
-const LiveSearch = () => {
+interface IOpenMenu {
+    setIsMobileMenuOpen: Dispatch<SetStateAction<boolean>>;
+  }
+
+const LiveSearch = ({ setIsMobileMenuOpen }: IOpenMenu) => {
     const [query, setQuery] = useState("");
     const [results, setResults] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
@@ -18,7 +23,6 @@ const LiveSearch = () => {
             setResults([]);
             return;
         }
-
         setLoading(true);
         getAllPhones(searchText)
             .then((res) => {
@@ -39,6 +43,14 @@ const LiveSearch = () => {
         }, 800);
         return () => clearTimeout(handler);
     }, [query, fetchData]);
+
+
+
+    const handlePush = (id: string) => {
+        setIsMobileMenuOpen(false)
+        router.push(`/shop/single/${id}`)
+
+    }
 
     return (
         <div className="relative w-full">
@@ -80,7 +92,7 @@ const LiveSearch = () => {
                                 <li
                                     key={phone.id}
                                     className="hover:bg-gray-100 cursor-pointer flex items-center gap-1 border-b border-gray-200 pb-1"
-                                    onClick={() => router.push(`/shop/single/${phone.id}`)}
+                                    onClick={() => handlePush(phone.id)}
                                 >
                                     <img
                                         src={phone.image}

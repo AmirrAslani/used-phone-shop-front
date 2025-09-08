@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { Favorites, Logo, LogoMobile, Search, User, Cart } from "@/assets/common/icons";
+import { Favorites, Logo, LogoMobile, User, Cart } from "@/assets/common/icons";
 import { HiMenu, HiX } from "react-icons/hi";
 import { useRouter } from "next/router";
 import Button from "@/lib/components/base/Button";
 import { getProfile } from "@/services/auth/authService";
 import { useCookies } from "react-cookie";
-import Input from "@/lib/components/base/Input";
 import CartDropdown from "../components/CartDropdown";
 import LiveSearch from "../components/LiveSearch";
 
@@ -23,7 +22,6 @@ const Navbar = () => {
   const profileMenuRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
-  const [search, setSearch] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -156,7 +154,7 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:block">
-          <LiveSearch />
+          <LiveSearch setIsMobileMenuOpen={setIsMobileMenuOpen} />
         </div>
 
         {/* Right - Profile and Mobile Menu Button */}
@@ -254,8 +252,8 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div ref={mobileMenuRef} className="md:hidden bg-white border-t border-gray-200 mt-2 py-3 absolute left-0 right-0 shadow-lg">
-          <div className="px-1 mb-4">
-            <LiveSearch />
+          <div className="px-2 mb-4">
+            <LiveSearch setIsMobileMenuOpen={setIsMobileMenuOpen} />
           </div>
 
           <div className="flex flex-col space-y-2 px-3">
