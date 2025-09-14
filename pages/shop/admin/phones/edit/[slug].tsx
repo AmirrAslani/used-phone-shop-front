@@ -25,7 +25,8 @@ interface PhoneForm {
     model: string;
     price: number;
     description: string;
-    image: File | string | null;
+    // image: File | string | null;
+    image: (typeof window extends undefined ? never : File) | string | null;
     quantity: number;
     specs?: Specs;
 }
@@ -107,6 +108,16 @@ const EditPhone: React.FC = () => {
             }
         },
     });
+
+    useEffect(() => {
+        if (formik.values.image instanceof File) {
+            const reader = new FileReader();
+            reader.onloadend = () => setPreviewImage(reader.result as string);
+            reader.readAsDataURL(formik.values.image);
+        } else {
+            setPreviewImage(null);
+        }
+    }, [formik.values.image]);
 
     const handleDelete = async (slug: string) => {
         try {
@@ -193,7 +204,7 @@ const EditPhone: React.FC = () => {
 
                 {/* File Uploader */}
                 <div>
-                    {previewImage ? (
+                    {/* {previewImage ? (
                         <Image
                             src={previewImage}
                             alt="Preview"
@@ -230,14 +241,53 @@ const EditPhone: React.FC = () => {
                         }}
                         className="w-full border rounded p-2 cursor-pointer"
                     />
-                    {formik.values.image instanceof File && (
+                    {typeof window !== "undefined" && formik.values.image instanceof File && (
                         <p className="text-sm text-gray-600">
                             فایل انتخاب شد: {formik.values.image.name}
                         </p>
                     )}
                     {formik.touched.image && formik.errors.image && (
                         <p className="text-red-500 text-sm mt-1">{formik.errors.image}</p>
+                    )} */}
+
+                    {previewImage ? (
+                        <Image
+                            src={previewImage}
+                            alt="Preview"
+                            width={80}
+                            height={80}
+                            className="rounded-lg shadow-md mb-2"
+                        />
+                    ) : (
+                        <img
+                            src={phone?.image}
+                            alt={phone?.model}
+                            width={80}
+                            height={80}
+                            className="rounded-lg shadow-md size-[80px] mb-2"
+                        />
                     )}
+
+                    <input
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        onChange={(event) => {
+                            const file = event.currentTarget.files?.[0] || null;
+                            formik.setFieldValue("image", file);
+                        }}
+                        className="w-full border rounded p-2 cursor-pointer"
+                    />
+
+                    {typeof window !== "undefined" && formik.values.image instanceof File && (
+                        <p className="text-sm text-gray-600">
+                            فایل انتخاب شد: {(formik.values.image as File).name}
+                        </p>
+                    )}
+                    {formik.touched.image && formik.errors.image && (
+                        <p className="text-red-500 text-sm mt-1">{formik.errors.image}</p>
+                    )}
+
                 </div>
 
                 {/* Quantity */}
