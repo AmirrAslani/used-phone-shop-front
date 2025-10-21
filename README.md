@@ -1,37 +1,5 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
 
-# Country Population Dashboard
-
-A Next.js application featuring authentication, data visualization, and interactive data tables.
-
-## Features
-
-### Authentication
-- Secure login system with route protection
-- Access control for protected pages
-
-### Login Information:
-- Username: oto
-- Password: oto123
-
-### Data Visualization
-- Interactive line charts using Chart.js
-- Country population comparison functionality
-
-### Data Management
-- Searchable and paginated country data table
-- Custom DataTable component for displaying information
-
-## Technologies Used
-
-- **Next.js** - Frontend framework
-- **TypeScript** - Type checking and data structure definition
-- **Tailwind CSS** - Styling and responsive design
-- **Chart.js** - Data visualization for population statistics
-- **React Toastify** - Notification system
-- **Custom Components** - DataTable, Input and Buttton
-
-
 ## Getting Started
 
 First, run the development server:
